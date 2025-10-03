@@ -28,6 +28,9 @@ class GO2RoughCfg( LeggedRobotCfg ):
         # action scale: target angle = actionScale * action + defaultAngle
         action_scale = 0.25
         # decimation: Number of control action updates @ sim DT per policy DT
+        # 降采样  控制在仿真中每个策略动作在仿真环境中被执行的次数，是仿真步与策略步之间的比例
+        # eg. sim DT = 0.002s  decimation = 4 ->policy DT = 0.008s
+        # 让底层控制更加平滑，减少高频抖动；减少策略网络的调用频率，提高训练效率
         decimation = 4
 
     class asset( LeggedRobotCfg.asset ):
@@ -36,8 +39,8 @@ class GO2RoughCfg( LeggedRobotCfg ):
         foot_name = "foot"
         penalize_contacts_on = ["thigh", "calf"]
         terminate_after_contacts_on = ["base"]
-        self_collisions = 1 # 1 to disable, 0 to enable...bitwise filter
-  
+        self_collisions = 0 # 1 to disable, 0 to enable...bitwise filter
+
     class rewards( LeggedRobotCfg.rewards ):
         soft_dof_pos_limit = 0.9
         base_height_target = 0.25

@@ -101,6 +101,8 @@ if __name__ == "__main__":
                 dqj = dqj * dof_vel_scale
                 gravity_orientation = get_gravity_orientation(quat)
                 omega = omega * ang_vel_scale
+                # cmd=
+
 
                 period = 0.8
                 count = counter * simulation_dt

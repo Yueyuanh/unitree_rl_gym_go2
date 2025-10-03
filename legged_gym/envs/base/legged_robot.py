@@ -18,6 +18,7 @@ from legged_gym.utils.isaacgym_utils import get_euler_xyz as get_euler_xyz_in_te
 from legged_gym.utils.helpers import class_to_dict
 from .legged_robot_config import LeggedRobotCfg
 
+# 继承训练任务 四足机器人
 class LeggedRobot(BaseTask):
     def __init__(self, cfg: LeggedRobotCfg, sim_params, physics_engine, sim_device, headless):
         """ Parses the provided config file,
@@ -34,47 +35,66 @@ class LeggedRobot(BaseTask):
         """
         self.cfg = cfg
         self.sim_params = sim_params
+        # 地形高度采样点
         self.height_samples = None
+        # TODO:debug 可视化
         self.debug_viz = False
         self.init_done = False
+        
+        # 解析参数
         self._parse_cfg(self.cfg)
+        # 父类初始化
         super().__init__(self.cfg, sim_params, physics_engine, sim_device, headless)
 
         if not self.headless:
             self.set_camera(self.cfg.viewer.pos, self.cfg.viewer.lookat)
+        # 初始化缓存空间
         self._init_buffers()
+        # 奖励函数 规则配置 计算奖励总和
         self._prepare_reward_function()
         self.init_done = True
 
+    # 四足机器人仿真
     def step(self, actions):
         """ Apply actions, simulate, call self.post_physics_step()
 
         Args:
             actions (torch.Tensor): Tensor of shape (num_envs, num_actions_per_env)
         """
-
+        
+        # 动作空间归一化 参数(100)
         clip_actions = self.cfg.normalization.clip_actions
+        # 归一化 并转为tensor向量 归一化范围[-100,100]
         self.actions = torch.clip(actions, -clip_actions, clip_actions).to(self.device)
+        
         # step physics and render each frame
         self.render()
+        # 策略步 被执行4次
         for _ in range(self.cfg.control.decimation):
+            # 计算力矩输出 <- PD控制器
             self.torques = self._compute_torques(self.actions).view(self.torques.shape)
+            # 发送力矩到仿真
             self.gym.set_dof_actuation_force_tensor(self.sim, gymtorch.unwrap_tensor(self.torques))
             self.gym.simulate(self.sim)
+            # play
             if self.cfg.env.test:
                 elapsed_time = self.gym.get_elapsed_time(self.sim)
                 sim_time = self.gym.get_sim_time(self.sim)
+                # 延时补偿 等待仿真渲染
                 if sim_time-elapsed_time>0:
                     time.sleep(sim_time-elapsed_time)
             
             if self.device == 'cpu':
                 self.gym.fetch_results(self.sim, True)
             self.gym.refresh_dof_state_tensor(self.sim)
+
         self.post_physics_step()
 
         # return clipped obs, clipped states (None), rewards, dones and infos
+        # 归一化观测器
         clip_obs = self.cfg.normalization.clip_observations
         self.obs_buf = torch.clip(self.obs_buf, -clip_obs, clip_obs)
+
         if self.privileged_obs_buf is not None:
             self.privileged_obs_buf = torch.clip(self.privileged_obs_buf, -clip_obs, clip_obs)
         return self.obs_buf, self.privileged_obs_buf, self.rew_buf, self.reset_buf, self.extras
@@ -253,13 +273,15 @@ class LeggedRobot(BaseTask):
             self.dof_vel_limits = torch.zeros(self.num_dof, dtype=torch.float, device=self.device, requires_grad=False)
             self.torque_limits = torch.zeros(self.num_dof, dtype=torch.float, device=self.device, requires_grad=False)
             for i in range(len(props)):
+                # 限制在URDF中
                 self.dof_pos_limits[i, 0] = props["lower"][i].item()
                 self.dof_pos_limits[i, 1] = props["upper"][i].item()
                 self.dof_vel_limits[i] = props["velocity"][i].item()
                 self.torque_limits[i] = props["effort"][i].item()
                 # soft limits
-                m = (self.dof_pos_limits[i, 0] + self.dof_pos_limits[i, 1]) / 2
-                r = self.dof_pos_limits[i, 1] - self.dof_pos_limits[i, 0]
+                # 软限位 soft_dof_pos_limit 收缩系数
+                m = (self.dof_pos_limits[i, 0] + self.dof_pos_limits[i, 1]) / 2 
+                r =  self.dof_pos_limits[i, 1] - self.dof_pos_limits[i, 0]  
                 self.dof_pos_limits[i, 0] = m - 0.5 * r * self.cfg.rewards.soft_dof_pos_limit
                 self.dof_pos_limits[i, 1] = m + 0.5 * r * self.cfg.rewards.soft_dof_pos_limit
         return props
@@ -423,17 +445,24 @@ class LeggedRobot(BaseTask):
     def _init_buffers(self):
         """ Initialize torch tensors which will contain simulation states and processed quantities
         """
-        # get gym GPU state tensors
+        # get gym GPU state tensors 
+        # 建立底层连接（acquire 获取指针）
+        # 获取所有机器人根节点的状态，并返回一个GPU张量
         actor_root_state = self.gym.acquire_actor_root_state_tensor(self.sim)
+        # 获取所有关节的状态，张量
         dof_state_tensor = self.gym.acquire_dof_state_tensor(self.sim)
+        # 获取所有刚体的接触力
         net_contact_forces = self.gym.acquire_net_contact_force_tensor(self.sim)
+        # 同步更新数据
         self.gym.refresh_dof_state_tensor(self.sim)
         self.gym.refresh_actor_root_state_tensor(self.sim)
         self.gym.refresh_net_contact_force_tensor(self.sim)
 
         # create some wrapper tensors for different slices
+        # 装饰为tensors，将底层的仿真数据指针包装成Pytorch的tensor
         self.root_states = gymtorch.wrap_tensor(actor_root_state)
-        self.dof_state = gymtorch.wrap_tensor(dof_state_tensor)
+        self.dof_state   = gymtorch.wrap_tensor(dof_state_tensor)
+        # 切片赋值
         self.dof_pos = self.dof_state.view(self.num_envs, self.num_dof, 2)[..., 0]
         self.dof_vel = self.dof_state.view(self.num_envs, self.num_dof, 2)[..., 1]
         self.base_quat = self.root_states[:, 3:7]
@@ -445,8 +474,10 @@ class LeggedRobot(BaseTask):
         self.common_step_counter = 0
         self.extras = {}
         self.noise_scale_vec = self._get_noise_scale_vec(self.cfg)
+        
         self.gravity_vec = to_torch(get_axis_params(-1., self.up_axis_idx), device=self.device).repeat((self.num_envs, 1))
         self.forward_vec = to_torch([1., 0., 0.], device=self.device).repeat((self.num_envs, 1))
+        # 参数
         self.torques = torch.zeros(self.num_envs, self.num_actions, dtype=torch.float, device=self.device, requires_grad=False)
         self.p_gains = torch.zeros(self.num_actions, dtype=torch.float, device=self.device, requires_grad=False)
         self.d_gains = torch.zeros(self.num_actions, dtype=torch.float, device=self.device, requires_grad=False)
@@ -489,11 +520,13 @@ class LeggedRobot(BaseTask):
         # remove zero scales + multiply non-zero ones by dt
         for key in list(self.reward_scales.keys()):
             scale = self.reward_scales[key]
+            # 去除0奖励
             if scale==0:
                 self.reward_scales.pop(key) 
             else:
                 self.reward_scales[key] *= self.dt
         # prepare list of functions
+        # 准备奖励列表
         self.reward_functions = []
         self.reward_names = []
         for name, scale in self.reward_scales.items():
@@ -501,9 +534,11 @@ class LeggedRobot(BaseTask):
                 continue
             self.reward_names.append(name)
             name = '_reward_' + name
+            # 获取叫这个名字的functions,并加入到列表中,方便后面统一调用
             self.reward_functions.append(getattr(self, name))
 
         # reward episode sums
+        # 初始化每集奖励字典 就是各个reward {_reward_name (key) : torch(num_envs) (value) }
         self.episode_sums = {name: torch.zeros(self.num_envs, dtype=torch.float, device=self.device, requires_grad=False)
                              for name in self.reward_scales.keys()}
 
@@ -623,6 +658,7 @@ class LeggedRobot(BaseTask):
     def _parse_cfg(self, cfg):
         self.dt = self.cfg.control.decimation * self.sim_params.dt
         self.obs_scales = self.cfg.normalization.obs_scales
+        # 将类转为字典
         self.reward_scales = class_to_dict(self.cfg.rewards.scales)
         self.command_ranges = class_to_dict(self.cfg.commands.ranges)
      
@@ -713,7 +749,8 @@ class LeggedRobot(BaseTask):
         self.feet_air_time *= ~contact_filt
         return rew_airTime
     
-    def _reward_stumble(self):
+    def _reward_feet_stumble(self):
+        # 绊倒惩罚
         # Penalize feet hitting vertical surfaces
         return torch.any(torch.norm(self.contact_forces[:, self.feet_indices, :2], dim=2) >\
              5 *torch.abs(self.contact_forces[:, self.feet_indices, 2]), dim=1)

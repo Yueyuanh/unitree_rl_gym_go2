@@ -4,6 +4,7 @@ class LeggedRobotCfg(BaseConfig):
     class env:
         num_envs = 4096
         num_observations = 48
+        # 特权信息维度
         num_privileged_obs = None # if not None a priviledge_obs_buf will be returned by step() (critic obs for assymetric training). None is returned otherwise 
         num_actions = 12
         env_spacing = 3.  # not used with heightfields/trimeshes 
@@ -19,6 +20,7 @@ class LeggedRobotCfg(BaseConfig):
         curriculum = True
         static_friction = 1.0
         dynamic_friction = 1.0
+        # 反弹系数
         restitution = 0.
         # rough terrain only:
         measure_heights = True
@@ -37,10 +39,15 @@ class LeggedRobotCfg(BaseConfig):
         slope_treshold = 0.75 # slopes above this threshold will be corrected to vertical surfaces
 
     class commands:
+        # 课程学习 先从简单命令开始 逐渐增大难度
         curriculum = False
+        #  课程学习的最大难度系数
         max_curriculum = 1.
+        # 控制纬度
         num_commands = 4 # default: lin_vel_x, lin_vel_y, ang_vel_yaw, heading (in heading mode ang_vel_yaw is recomputed from heading error)
+        # 命令重新生成的时间间隔 随机变换指令周期
         resampling_time = 10. # time before command are changed[s]
+        # 朝向命令模式 就是yaw_set
         heading_command = True # if true: compute ang vel command from heading error
         class ranges:
             lin_vel_x = [-1.0, 1.0] # min max [m/s]
@@ -58,6 +65,7 @@ class LeggedRobotCfg(BaseConfig):
             "joint_b": 0.}
 
     class control:
+        # 位置控制
         control_type = 'P' # P: position, V: velocity, T: torques
         # PD Drive parameters:
         stiffness = {'joint_a': 10.0, 'joint_b': 15.}  # [N*m/rad]
@@ -90,39 +98,54 @@ class LeggedRobotCfg(BaseConfig):
         thickness = 0.01
 
     class domain_rand:
-        randomize_friction = True
+        # 摩擦力域随机化
+        randomize_friction = True 
         friction_range = [0.5, 1.25]
+        # 质量域随机化
         randomize_base_mass = False
         added_mass_range = [-1., 1.]
+        # 外界干扰力
         push_robots = True
         push_interval_s = 15
         max_push_vel_xy = 1.
 
     class rewards:
-        class scales:
-            termination = -0.0
-            tracking_lin_vel = 1.0
-            tracking_ang_vel = 0.5
-            lin_vel_z = -2.0
-            ang_vel_xy = -0.05
-            orientation = -0.
-            torques = -0.00001
-            dof_vel = -0.
-            dof_acc = -2.5e-7
-            base_height = -0. 
-            feet_air_time =  1.0
-            collision = -1.
-            feet_stumble = -0.0 
-            action_rate = -0.01
-            stand_still = -0.
+        # 总奖励 = SUM( 奖励分量 * 权重系数 )
+        """
+            # 第一优先级：安全稳定
+            稳定性奖励 = lin_vel_z + ang_vel_xy + orientation + collision
 
-        only_positive_rewards = True # if true negative total rewards are clipped at zero (avoids early termination problems)
+            # 第二优先级：任务执行  
+            任务奖励 = tracking_lin_vel + tracking_ang_vel
+
+            # 第三优先级：运动质量(平滑型)
+            质量奖励 = feet_air_time - action_rate - torques
+        """
+        class scales:
+            termination = -0.0 
+            tracking_lin_vel = 1.0  # 跟踪线性速度奖励系数
+            tracking_ang_vel = 0.5  # 跟踪角速度 
+            lin_vel_z = -2.0        # 垂直方向速度 放置跳跃下沉
+            ang_vel_xy = -0.05      # 滚转/俯仰 角速度
+            orientation = -0.       # 旋转 身体朝向偏差
+            torques = -0.00001      # 关节力矩 节能 减少损耗
+            dof_vel = -0.           # 关节速度
+            dof_acc = -2.5e-7       # 关节加速度 减少冲击
+            base_height = -0.5      # 身体重心高度 0
+            feet_air_time =  1.0    # 足端悬空时间
+            collision = -1.         # 碰撞
+            feet_stumble = -0.5     # 脚部绊倒
+            action_rate = -0.01     # 动作变化率 不能变的频繁
+            stand_still = -0.       # 静止站立惩罚
+
+        only_positive_rewards = False # if true negative total rewards are clipped at zero (avoids early termination problems)
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
         soft_dof_pos_limit = 1. # percentage of urdf limits, values above this limit are penalized
-        soft_dof_vel_limit = 1.
+        soft_dof_vel_limit = 1. # 根据urdf的限制范围 1～100%
         soft_torque_limit = 1.
-        base_height_target = 1.
+        base_height_target = 1. # 目标基础身体高度
         max_contact_force = 100. # forces above this value are penalized
+        # 最大接触力限制
 
     class normalization:
         class obs_scales:
@@ -148,8 +171,8 @@ class LeggedRobotCfg(BaseConfig):
     # viewer camera:
     class viewer:
         ref_env = 0
-        pos = [10, 0, 6]  # [m]
-        lookat = [11., 5, 3.]  # [m]
+        pos = [12, 0, 6]  # [m]
+        lookat = [0, 0, 3.]  # [m]
 
     class sim:
         dt =  0.005
@@ -171,12 +194,16 @@ class LeggedRobotCfg(BaseConfig):
             contact_collection = 2 # 0: never, 1: last sub-step, 2: all sub-steps (default=2)
 
 class LeggedRobotCfgPPO(BaseConfig):
-    seed = 1
+    seed = 1    # 随机种子
     runner_class_name = 'OnPolicyRunner'
     class policy:
+        # 初始化策略标准差
         init_noise_std = 1.0
+        # Actor网络隐藏层维度
         actor_hidden_dims = [512, 256, 128]
+        # Critic网络隐藏层维度
         critic_hidden_dims = [512, 256, 128]
+        # 激活函数 指数线性单元 避免梯度消失 训练更稳定
         activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
         # only for 'ActorCriticRecurrent':
         # rnn_type = 'lstm'
@@ -185,31 +212,50 @@ class LeggedRobotCfgPPO(BaseConfig):
         
     class algorithm:
         # training params
+        # 价值函数损失权重
         value_loss_coef = 1.0
+        # 对价值函数也使用裁剪
         use_clipped_value_loss = True
+        # PPO 裁剪参数 限制策略更新幅度
         clip_param = 0.2
+        # 熵正则化系数 鼓励探索
         entropy_coef = 0.01
+
+        # 每个数据批次重复训练5次
         num_learning_epochs = 5
+        # 将数据分成4个小批次
         num_mini_batches = 4 # mini batch size = num_envs*nsteps / nminibatches
+        # 学习率
         learning_rate = 1.e-3 #5.e-4
+        # 自适应学习率调度
         schedule = 'adaptive' # could be adaptive, fixed
+        # 折扣因子
         gamma = 0.99
+        # GAE 广义优势估计 参数
         lam = 0.95
+        # 目标KL散度 用于自适应学习率
         desired_kl = 0.01
+        # 梯度裁剪阈值
         max_grad_norm = 1.
 
     class runner:
         policy_class_name = 'ActorCritic'
         algorithm_class_name = 'PPO'
+        # 每个环境收集24步的数据
         num_steps_per_env = 24 # per iteration
-        max_iterations = 1500 # number of policy updates
+        # 最大训练迭代次数
+        max_iterations = 5000 # number of policy updates
 
         # logging
-        save_interval = 50 # check for potential saves every this many iterations
+        save_interval = 200 # check for potential saves every this many iterations
         experiment_name = 'test'
         run_name = ''
+
         # load and resume
+        # 是否从检查点恢复
         resume = False
+        # 加载最后一次运行
         load_run = -1 # -1 = last run
+        # 加载最后保存的模型
         checkpoint = -1 # -1 = last saved model
         resume_path = None # updated from load_run and chkpt
