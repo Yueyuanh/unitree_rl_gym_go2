@@ -26,7 +26,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/base_link.STL" />
+          filename="../meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -40,7 +40,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/base_link.STL" />
+          filename="../meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -66,7 +66,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Tail_Link.STL" />
+          filename="../meshes/Tail_Link.STL" />
       </geometry>
       <material
         name="">
@@ -80,7 +80,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Tail_Link.STL" />
+          filename="../meshes/Tail_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -128,7 +128,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Larm_Link.STL" />
+          filename="../meshes/Larm_Link.STL" />
       </geometry>
       <material
         name="">
@@ -142,7 +142,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Larm_Link.STL" />
+          filename="../meshes/Larm_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -181,7 +181,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rarm_Link.STL" />
+          filename="../meshes/Rarm_Link.STL" />
       </geometry>
       <material
         name="">
@@ -195,12 +195,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rarm_Link.STL" />
+          filename="../meshes/Rarm_Link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rarm_joint"
+    name="Rarm_Joint"
     type="continuous">
     <origin
       xyz="0.0200000000000008 -0.0809500000000023 0.205"
@@ -234,7 +234,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lhip1_Link.STL" />
+          filename="../meshes/Lhip1_Link.STL" />
       </geometry>
       <material
         name="">
@@ -248,7 +248,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lhip1_Link.STL" />
+          filename="../meshes/Lhip1_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -295,7 +295,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lhip2_Link.STL" />
+          filename="../meshes/Lhip2_Link.STL" />
       </geometry>
       <material
         name="">
@@ -309,7 +309,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lhip2_Link.STL" />
+          filename="../meshes/Lhip2_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -357,7 +357,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lhip3_Link.STL" />
+          filename="../meshes/Lhip3_Link.STL" />
       </geometry>
       <material
         name="">
@@ -371,7 +371,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lhip3_Link.STL" />
+          filename="../meshes/Lhip3_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -418,7 +418,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lknee_Link.STL" />
+          filename="../meshes/Lknee_Link.STL" />
       </geometry>
       <material
         name="">
@@ -432,7 +432,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lknee_Link.STL" />
+          filename="../meshes/Lknee_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -479,7 +479,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lankle_Link.STL" />
+          filename="../meshes/Lankle_Link.STL" />
       </geometry>
       <material
         name="">
@@ -493,7 +493,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Lankle_Link.STL" />
+          filename="../meshes/Lankle_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -540,7 +540,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rhip1_Link.STL" />
+          filename="../meshes/Rhip1_Link.STL" />
       </geometry>
       <material
         name="">
@@ -554,12 +554,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rhip1_Link.STL" />
+          filename="../meshes/Rhip1_Link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rhip1_joint"
+    name="Rhip1_Joint"
     type="revolute">
     <origin
       xyz="0 -0.0877000000000044 0"
@@ -601,7 +601,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rhip2_Link.STL" />
+          filename="../meshes/Rhip2_Link.STL" />
       </geometry>
       <material
         name="">
@@ -615,7 +615,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rhip2_Link.STL" />
+          filename="../meshes/Rhip2_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -662,7 +662,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rhip3_Link.STL" />
+          filename="../meshes/Rhip3_Link.STL" />
       </geometry>
       <material
         name="">
@@ -676,7 +676,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rhip3_Link.STL" />
+          filename="../meshes/Rhip3_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -723,7 +723,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rknee_Link.STL" />
+          filename="../meshes/Rknee_Link.STL" />
       </geometry>
       <material
         name="">
@@ -737,7 +737,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rknee_Link.STL" />
+          filename="../meshes/Rknee_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -784,7 +784,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rankle_Link.STL" />
+          filename="../meshes/Rankle_Link.STL" />
       </geometry>
       <material
         name="">
@@ -798,7 +798,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://Pikachu_V01/meshes/Rankle_Link.STL" />
+          filename="../meshes/Rankle_Link.STL" />
       </geometry>
     </collision>
   </link>
@@ -825,7 +825,7 @@
   </joint>
 
 <!-- IMU -->
-  <!-- <link
+  <link
     name="imu">
     <inertial>
       <origin
@@ -854,7 +854,7 @@
       link="imu" />
     <axis
       xyz="0 0 0" />
-  </joint> -->
+  </joint>
 
 
 </robot>

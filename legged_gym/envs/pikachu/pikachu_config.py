@@ -6,8 +6,8 @@ class PikachuRoughCfg( LeggedRobotCfg ):
         default_joint_angles = { # = target angles [rad] when action = 0.0
 
            'Tail_Joint' : 0,   
-           'Larm_Joint' : 0,               
-           'Rarm_Joint' : 0,   
+           'Larm_Joint' : 1.57,               
+           'Rarm_Joint' : 1.57,   
 
            'Lhip1_Joint' : 0,   
            'Lhip2_Joint' : 0,               
@@ -23,8 +23,8 @@ class PikachuRoughCfg( LeggedRobotCfg ):
 
         }
     class env(LeggedRobotCfg.env):
-        num_observations = 47
-        num_privileged_obs = 50
+        num_observations = 50
+        num_privileged_obs = 53
         num_actions = 13
 
 
@@ -98,14 +98,15 @@ class PikachuRoughCfgPPO( LeggedRobotCfgPPO ):
         critic_hidden_dims = [32]
         activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
         # only for 'ActorCriticRecurrent':
-        rnn_type = 'lstm'
-        rnn_hidden_size = 64
-        rnn_num_layers = 1
+        # rnn_type = 'lstm'
+        # rnn_hidden_size = 64
+        # rnn_num_layers = 1
         
     class algorithm( LeggedRobotCfgPPO.algorithm ):
         entropy_coef = 0.01
     class runner( LeggedRobotCfgPPO.runner ):
-        policy_class_name = "ActorCriticRecurrent"
+        policy_class_name = "ActorCritic"
+        # num_actions_per_env=10
         max_iterations = 10000
         run_name = ''
         experiment_name = 'Pikachu_V01'
