@@ -8,9 +8,11 @@
       <geom friction="0.4" margin="0.001" condim="1"/>
       <joint axis="0 1 0" damping="0.1" armature="0.01" frictionloss="0.2"/>
       <motor ctrlrange="-23.7 23.7"/>
+
       <default class="abduction">
         <joint axis="1 0 0" range="-1.0472 1.0472"/>
       </default>
+
       <default class="hip">
         <default class="front_hip">
           <joint range="-1.5708 3.4907"/>
@@ -19,13 +21,16 @@
           <joint range="-0.5236 4.5379"/>
         </default>
       </default>
+
       <default class="knee">
         <joint range="-2.7227 -0.83776"/>
         <motor ctrlrange="-45.43 45.43"/>
       </default>
+
       <default class="visual">
         <geom type="mesh" contype="0" conaffinity="0" group="2"/>
       </default>
+
       <default class="collision">
         <geom group="3"/>
         <default class="foot">
@@ -71,10 +76,13 @@
       <geom mesh="base_2" material="black" class="visual" />
       <geom mesh="base_3" material="white" class="visual" />
       <geom mesh="base_4" material="gray" class="visual" />
+
       <geom size="0.1881 0.04675 0.057" type="box" class="collision" />
       <geom size="0.05 0.045" pos="0.285 0 0.01" type="cylinder" class="collision" />
       <geom size="0.047" pos="0.293 0 -0.06" class="collision" />
+      <!-- 设定IMU 位置 -->
       <site name="imu" pos="-0.02557 0 0.04232" />
+
       <body name="FL_hip" pos="0.1934 0.0465 0">
         <inertial pos="-0.0054 0.00194 -0.000105" quat="0.497014 0.499245 0.505462 0.498237"
           mass="0.678"
@@ -109,6 +117,7 @@
           </body>
         </body>
       </body>
+
       <body name="FR_hip" pos="0.1934 -0.0465 0">
         <inertial pos="-0.0054 -0.00194 -0.000105" quat="0.498237 0.505462 0.499245 0.497014"
           mass="0.678"
@@ -144,6 +153,7 @@
           </body>
         </body>
       </body>
+
       <body name="RL_hip" pos="-0.1934 0.0465 0">
         <inertial pos="0.0054 0.00194 -0.000105" quat="0.505462 0.498237 0.497014 0.499245"
           mass="0.678"
@@ -179,6 +189,7 @@
           </body>
         </body>
       </body>
+
       <body name="RR_hip" pos="-0.1934 -0.0465 0">
         <inertial pos="0.0054 -0.00194 -0.000105" quat="0.499245 0.497014 0.498237 0.505462"
           mass="0.678"
@@ -223,12 +234,15 @@
     <motor class="abduction" name="FR_hip" joint="FR_hip_joint" />
     <motor class="hip" name="FR_thigh" joint="FR_thigh_joint" />
     <motor class="knee" name="FR_calf" joint="FR_calf_joint" />
+
     <motor class="abduction" name="FL_hip" joint="FL_hip_joint" />
     <motor class="hip" name="FL_thigh" joint="FL_thigh_joint" />
     <motor class="knee" name="FL_calf" joint="FL_calf_joint" />
+
     <motor class="abduction" name="RR_hip" joint="RR_hip_joint" />
     <motor class="hip" name="RR_thigh" joint="RR_thigh_joint" />
     <motor class="knee" name="RR_calf" joint="RR_calf_joint" />
+
     <motor class="abduction" name="RL_hip" joint="RL_hip_joint" />
     <motor class="hip" name="RL_thigh" joint="RL_thigh_joint" />
     <motor class="knee" name="RL_calf" joint="RL_calf_joint" />
@@ -283,7 +297,8 @@
   </sensor>
 
   <keyframe>
-    <key name="home" qpos="0 0 0.27 1 0 0 0 0 0.9 -1.8 0 0.9 -1.8 0 0.9 -1.8 0 0.9 -1.8"
-      ctrl="0 0.9 -1.8 0 0.9 -1.8 0 0.9 -1.8 0 0.9 -1.8" />
+    <key name="home" 
+      qpos="0 0 0.27  1 0 0 0   0 0.9 -1.8   0 0.9 -1.8   0 0.9 -1.8   0 0.9 -1.8"
+      ctrl="0 0.9 -1.8   0 0.9 -1.8   0 0.9 -1.8   0 0.9 -1.8" />
   </keyframe>
 </mujoco>

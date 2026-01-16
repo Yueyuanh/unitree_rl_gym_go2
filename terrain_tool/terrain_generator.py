@@ -5,7 +5,7 @@ import noise
 
 ROBOT = "go2"
 INPUT_SCENE_PATH = "./scene.xml"
-OUTPUT_SCENE_PATH = "../unitree_robots/" + ROBOT + "/scene_slope.xml"
+OUTPUT_SCENE_PATH = "../resources/robots/go2/scene_perlin.xml"
 
 
 # zyx euler angle to quaternion
@@ -145,9 +145,9 @@ class TerrainGenerator:
                         [width, length, abs(height - gap)])
 
     def AddRoughGround(self,
-                       init_pos=[1.0, 0.0, 0.0],
+                       init_pos=[0.0, 0.0, 0.0],
                        euler=[0.0, -0.0, 0.0],
-                       nums=[10, 10],
+                       nums=[100, 100],
                        box_size=[0.5, 0.5, 0.5],
                        box_euler=[0.0, 0.0, 0.0],
                        separation=[0.2, 0.2],
@@ -178,12 +178,12 @@ class TerrainGenerator:
             position=[1.0, 0.0, 0.0],  # position
             euler=[0.0, -0.0, 0.0],  # attitude
             size=[1.0, 1.0],  # width and length
-            height_scale=0.2,  # max height
+            height_scale=0.3,  # max height
             negative_height=0.2,  # height in the negative direction of z axis
             image_width=128,  # height field image size
             img_height=128,
             smooth=100.0,  # smooth scale
-            perlin_octaves=6,  # perlin noise parameter
+            perlin_octaves=10,  # perlin noise parameter
             perlin_persistence=0.5,
             perlin_lacunarity=2.0,
             output_hfield_image="height_field.png"):
@@ -268,9 +268,9 @@ if __name__ == "__main__":
     # tg.AddGeometry(position=[1.5, 0.0, 0.25], euler=[0, 0, 0.0], size=[1.0,0.5,0.5],geo_type="cylinder")
 
     # Slope
-    tg.AddBox(position=[2.0, 2.0, 0.5],
-              euler=[0.0, -0.1, 0.0],
-              size=[3, 1.5, 0.1])
+    # tg.AddBox(position=[2.0, 2.0, 0.5],
+    #           euler=[0.0, -0.1, 0.0],
+    #           size=[3, 1.5, 0.1])
 
     # Stairs
     # tg.AddStairs(init_pos=[1.0, 4.0, 0.0], yaw=0.0)
@@ -279,12 +279,13 @@ if __name__ == "__main__":
     # tg.AddSuspendStairs(init_pos=[1.0, 6.0, 0.0], yaw=0.0)
 
     # # Rough ground
-    # tg.AddRoughGround(init_pos=[-2.5, 5.0, 0.0],
+    # tg.AddRoughGround(init_pos=[-5, -5, 0.0],
     #                   euler=[0, 0, 0.0],
-    #                   nums=[10, 8])
+    #                   box_size=[0.5, 0.5, 0.5],
+    #                   nums=[50, 50])
 
     # # Perlin heigh field
-    # tg.AddPerlinHeighField(position=[-1.5, 4.0, 0.0], size=[2.0, 1.5])
+    tg.AddPerlinHeighField(position=[-5.0, -5.0, 0.0], size=[20.0, 20.0])
 
     # # Heigh field from image
     # tg.AddHeighFieldFromImage(position=[-1.5, 2.0, 0.0],

@@ -1,0 +1,32 @@
+<!-- contact.xml -->
+<mujoco>
+
+    <contact>
+        <!-- 排除基座与尾巴的碰撞 -->
+        <exclude body1="base_link" body2="Tail_Link"/>
+        
+        <!-- 排除基座与手臂的碰撞 -->
+        <exclude body1="base_link" body2="Larm_Link"/>
+        <exclude body1="base_link" body2="Rarm_Link"/>
+        
+        <exclude body1="base_link" body2="Lhip1_Link"/>
+        <exclude body1="base_link" body2="Rhip1_Link"/>
+        <exclude body1="base_link" body2="Lhip2_Link"/>
+        <exclude body1="base_link" body2="Rhip2_Link"/>
+        
+        
+        <!-- 排除相邻腿部关节的碰撞 -->
+        <exclude body1="Lhip1_Link" body2="Lhip2_Link"/>
+        <exclude body1="Lhip2_Link" body2="Lhip3_Link"/>
+        <exclude body1="Lhip3_Link" body2="Lknee_Link"/>
+        <exclude body1="Lknee_Link" body2="Lankle_Link"/>
+        
+        <exclude body1="Rhip1_Link" body2="Rhip2_Link"/>
+        <exclude body1="Rhip2_Link" body2="Rhip3_Link"/>
+        <exclude body1="Rhip3_Link" body2="Rknee_Link"/>
+        <exclude body1="Rknee_Link" body2="Rankle_Link"/>
+    </contact>
+
+
+
+</mujoco>

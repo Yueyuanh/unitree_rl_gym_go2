@@ -1,0 +1,22 @@
+<!-- keyframe.xml -->
+
+<!-- base position(xyz) base orientation(wxyz) -->
+<!-- Tail Larm Rarm -->
+<!-- Lhip1 Lhip2 Lhip3 Lknee Lankle -->
+<!-- Rhip1 Rhip2 Rhip3 Rknee Rankle -->
+
+
+<mujoco>
+    <keyframe>
+        <key name="home" 
+            qpos="0 0 0
+                  1 0 0 0 
+                  0 0 0
+                  0 0 0 0 0
+                  0 0 0 0 0"
+
+            ctrl="0 0 0 
+                  0 0 0 0 0
+                  0 0 0 0 0" />
+    </keyframe>
+</mujoco>

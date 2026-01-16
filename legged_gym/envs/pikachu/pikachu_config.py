@@ -1,27 +1,31 @@
 from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO
 
-class G1RoughCfg( LeggedRobotCfg ):
+class PikachuRoughCfg( LeggedRobotCfg ):
     class init_state( LeggedRobotCfg.init_state ):
-        pos = [0.0, 0.0, 0.8] # x,y,z [m]
+        pos = [0.0, 0.0, 0.5] # x,y,z [m]
         default_joint_angles = { # = target angles [rad] when action = 0.0
-           'left_hip_yaw_joint' : 0. ,   
-           'left_hip_roll_joint' : 0,               
-           'left_hip_pitch_joint' : -0.1,         
-           'left_knee_joint' : 0.3,       
-           'left_ankle_pitch_joint' : -0.2,     
-           'left_ankle_roll_joint' : 0,     
-           'right_hip_yaw_joint' : 0., 
-           'right_hip_roll_joint' : 0, 
-           'right_hip_pitch_joint' : -0.1,                                       
-           'right_knee_joint' : 0.3,                                             
-           'right_ankle_pitch_joint': -0.2,                              
-           'right_ankle_roll_joint' : 0,       
-           'torso_joint' : 0.
+
+           'Tail_Joint' : 0,   
+           'Larm_Joint' : 0,               
+           'Rarm_Joint' : 0,   
+
+           'Lhip1_Joint' : 0,   
+           'Lhip2_Joint' : 0,               
+           'Lhip3_Joint' : 0,         
+           'Lknee_Joint' : 0,       
+           'Lankle_Joint' : 0,     
+
+           'Rhip1_Joint' : 0,   
+           'Rhip2_Joint' : 0,               
+           'Rhip3_Joint' : 0,         
+           'Rknee_Joint' : 0,       
+           'Rankle_Joint' : 0. 
+
         }
     class env(LeggedRobotCfg.env):
         num_observations = 47
         num_privileged_obs = 50
-        num_actions = 12
+        num_actions = 13
 
 
     class domain_rand(LeggedRobotCfg.domain_rand):
@@ -56,8 +60,8 @@ class G1RoughCfg( LeggedRobotCfg ):
         decimation = 4
 
     class asset( LeggedRobotCfg.asset ):
-        file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/g1_description/g1_12dof.urdf'
-        name = "g1"
+        file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/Pikachu_V01/urdf/Pikachu_V01.urdf'
+        name = "Pikachu_V01"
         foot_name = "ankle_roll"
         penalize_contacts_on = ["hip", "knee"]
         terminate_after_contacts_on = ["pelvis"]
@@ -87,7 +91,7 @@ class G1RoughCfg( LeggedRobotCfg ):
             feet_swing_height = -20.0
             contact = 0.18
 
-class G1RoughCfgPPO( LeggedRobotCfgPPO ):
+class PikachuRoughCfgPPO( LeggedRobotCfgPPO ):
     class policy:
         init_noise_std = 0.8
         actor_hidden_dims = [32]
@@ -104,6 +108,6 @@ class G1RoughCfgPPO( LeggedRobotCfgPPO ):
         policy_class_name = "ActorCriticRecurrent"
         max_iterations = 10000
         run_name = ''
-        experiment_name = 'g1'
+        experiment_name = 'Pikachu_V01'
 
   

@@ -1,0 +1,59 @@
+<!-- sensors.xml -->
+<mujoco>
+    <sensor>
+        <!-- 关节位置传感器 -->
+        <jointpos name="sens_Tail_pos" joint="Tail_Joint" />
+        <jointpos name="sens_Larm_pos" joint="Larm_Joint" />
+        <jointpos name="sens_Rarm_pos" joint="Rarm_Joint" />
+        <jointpos name="sens_Lhip1_pos" joint="Lhip1_Joint" />
+        <jointpos name="sens_Lhip2_pos" joint="Lhip2_Joint" />
+        <jointpos name="sens_Lhip3_pos" joint="Lhip3_Joint" />
+        <jointpos name="sens_Lknee_pos" joint="Lknee_Joint" />
+        <jointpos name="sens_Lankle_pos" joint="Lankle_Joint" />
+        <jointpos name="sens_Rhip1_pos" joint="Rhip1_Joint" />
+        <jointpos name="sens_Rhip2_pos" joint="Rhip2_Joint" />
+        <jointpos name="sens_Rhip3_pos" joint="Rhip3_Joint" />
+        <jointpos name="sens_Rknee_pos" joint="Rknee_Joint" />
+        <jointpos name="sens_Rankle_pos" joint="Rankle_Joint" />
+        
+        <!-- 关节速度传感器 -->
+        <jointvel name="sens_Tail_vel" joint="Tail_Joint" />
+        <jointvel name="sens_Larm_vel" joint="Larm_Joint" />
+        <jointvel name="sens_Rarm_vel" joint="Rarm_Joint" />
+        <jointvel name="sens_Lhip1_vel" joint="Lhip1_Joint" />
+        <jointvel name="sens_Lhip2_vel" joint="Lhip2_Joint" />
+        <jointvel name="sens_Lhip3_vel" joint="Lhip3_Joint" />
+        <jointvel name="sens_Lknee_vel" joint="Lknee_Joint" />
+        <jointvel name="sens_Lankle_vel" joint="Lankle_Joint" />
+        <jointvel name="sens_Rhip1_vel" joint="Rhip1_Joint" />
+        <jointvel name="sens_Rhip2_vel" joint="Rhip2_Joint" />
+        <jointvel name="sens_Rhip3_vel" joint="Rhip3_Joint" />
+        <jointvel name="sens_Rknee_vel" joint="Rknee_Joint" />
+        <jointvel name="sens_Rankle_vel" joint="Rankle_Joint" />
+        
+        <!-- 执行器力矩传感器 -->
+        
+        <jointactuatorfrc name="sens_Lhip1_trq" joint="Lhip1_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Lhip2_trq" joint="Lhip2_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Lhip3_trq" joint="Lhip3_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Lknee_trq" joint="Lknee_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Lankle_trq" joint="Lankle_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Rhip1_trq" joint="Rhip1_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Rhip2_trq" joint="Rhip2_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Rhip3_trq" joint="Rhip3_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Rknee_trq" joint="Rknee_Joint" noise="0.01"/>
+        <jointactuatorfrc name="sens_Rankle_trq" joint="Rankle_Joint" noise="0.01"/>
+        
+        <!-- 躯干姿态传感器 -->
+        <framequat name="imu_quat" objtype="site" objname="imu" />
+        <gyro name="imu_gyro" site="imu" />
+        <accelerometer name="imu_acc" site="imu" />
+        
+        <framepos name="frame_pos" objtype="site" objname="imu" />
+        <framelinvel name="frame_vel" objtype="site" objname="imu" />
+
+        <!-- 足部接触传感器 -->
+        <!-- <touch name="sens_Lankle_touch" site="site_Lankle" />
+        <touch name="sens_Rankle_touch" site="site_Rankle" /> -->
+    </sensor>
+</mujoco>

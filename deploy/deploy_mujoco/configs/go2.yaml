@@ -4,9 +4,9 @@ policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/go2/policy_15000.pt"
 
 
 # xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/go2/scene.xml"
-# xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/go2/scene_terrain.xml"
-xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/go2/scene_slope.xml"
-
+# xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/go2/scene_perlin.xml"
+# xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/go2/scene_slope.xml"
+xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/go2/scene_terrain.xml"
 
 # Total simulation time
 simulation_duration: 1000 #60.0 s
@@ -39,5 +39,5 @@ num_actions: 12
 num_obs: 48
 
 # 目标速度
-cmd_init: [0.5, 0, 0]
-joystick: 1
+cmd_init: [0.1, 0, 0]
+joystick: 0

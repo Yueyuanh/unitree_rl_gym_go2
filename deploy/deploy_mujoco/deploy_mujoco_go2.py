@@ -16,6 +16,7 @@ from unitree_sdk2py.idl.default import unitree_go_msg_dds__WirelessController_
 
 TOPIC_WIRELESS_CONTROLLER = "rt/wirelesscontroller"
 
+LEGGED_GYM_ROOT_DIR = "/mnt/data/Projects/unitree_rl_gym"
 
 # 获取四元数
 def get_gravity_orientation(quaternion):
@@ -311,7 +312,7 @@ if __name__ == "__main__":
                 # target_dof_pos = default_angles
 
                 # print(obs)
-                # print(target_dof_pos)
+                print(target_dof_pos)
 
 
             # Pick up changes to the physics state, apply perturbations, update options from GUI.

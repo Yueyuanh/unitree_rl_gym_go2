@@ -13,7 +13,7 @@ class LeggedRobotCfg(BaseConfig):
         test = False
 
     class terrain:
-        mesh_type = 'plane' # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
         horizontal_scale = 0.1 # [m]
         vertical_scale = 0.005 # [m]
         border_size = 25 # [m]
@@ -102,12 +102,12 @@ class LeggedRobotCfg(BaseConfig):
         randomize_friction = True 
         friction_range = [0.5, 1.25]
         # 质量域随机化
-        randomize_base_mass = False
+        randomize_base_mass = True
         added_mass_range = [-1., 1.]
         # 外界干扰力
         push_robots = True
         push_interval_s = 15
-        max_push_vel_xy = 1.
+        max_push_vel_xy = 3.
 
     class rewards:
         # 总奖励 = SUM( 奖励分量 * 权重系数 )
@@ -124,14 +124,14 @@ class LeggedRobotCfg(BaseConfig):
         class scales:
             termination = -0.0 
             tracking_lin_vel = 1.0  # 跟踪线性速度奖励系数
-            tracking_ang_vel = 0.5  # 跟踪角速度 
+            tracking_ang_vel = 1.0  # 跟踪角速度 0.5
             lin_vel_z = -2.0        # 垂直方向速度 放置跳跃下沉
             ang_vel_xy = -0.05      # 滚转/俯仰 角速度
             orientation = -0.       # 旋转 身体朝向偏差
             torques = -0.00001      # 关节力矩 节能 减少损耗
             dof_vel = -0.           # 关节速度
             dof_acc = -2.5e-7       # 关节加速度 减少冲击
-            base_height = -0.5      # 身体重心高度 0
+            base_height = 0.      # 身体重心高度 0
             feet_air_time =  1.0    # 足端悬空时间
             collision = -1.         # 碰撞
             feet_stumble = -0.5     # 脚部绊倒
@@ -244,7 +244,7 @@ class LeggedRobotCfgPPO(BaseConfig):
         # 每个环境收集24步的数据
         num_steps_per_env = 24 # per iteration
         # 最大训练迭代次数
-        max_iterations = 5000 # number of policy updates
+        max_iterations = 2000 # number of policy updates
 
         # logging
         save_interval = 200 # check for potential saves every this many iterations
