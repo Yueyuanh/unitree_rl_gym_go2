@@ -107,7 +107,7 @@
 
   </joint>
   <link
-    name="Larm_Link">
+    name="left_arm_link">
     <inertial>
       <origin
         xyz="0.0878069289406275 2.53963516883005E-15 -0.000598829402875797"
@@ -128,7 +128,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Larm_Link.STL" />
+          filename="../meshes/left_arm_link.STL" />
       </geometry>
       <material
         name="">
@@ -142,25 +142,25 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Larm_Link.STL" />
+          filename="../meshes/left_arm_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Larm_Joint"
+    name="left_arm_joint"
     type="continuous">
     <origin
       xyz="0.0199999999999998 0.0809500000000004 0.205"
-      rpy="1.57079632679491 1.5707963267949 0" />
+      rpy="-1.57079632679491 1.5707963267949 0" />
     <parent
       link="base_link" />
     <child
-      link="Larm_Link" />
+      link="left_arm_link" />
     <axis
       xyz="0 0 -1" />
   </joint>
   <link
-    name="Rarm_Link">
+    name="right_arm_link">
     <inertial>
       <origin
         xyz="0.0846982522182745 9.91914883563538E-15 -0.000310298603530816"
@@ -181,7 +181,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rarm_Link.STL" />
+          filename="../meshes/right_arm_link.STL" />
       </geometry>
       <material
         name="">
@@ -195,12 +195,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rarm_Link.STL" />
+          filename="../meshes/right_arm_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rarm_Joint"
+    name="right_arm_joint"
     type="continuous">
     <origin
       xyz="0.0200000000000008 -0.0809500000000023 0.205"
@@ -208,12 +208,12 @@
     <parent
       link="base_link" />
     <child
-      link="Rarm_Link" />
+      link="right_arm_link" />
     <axis
       xyz="0 0 -1" />
   </joint>
   <link
-    name="Lhip1_Link">
+    name="left_hip_pitch_link">
     <inertial>
       <origin
         xyz="0.047164678756401 2.29594481931938E-06 -0.0231109660173988"
@@ -234,7 +234,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lhip1_Link.STL" />
+          filename="../meshes/left_hip_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -248,12 +248,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lhip1_Link.STL" />
+          filename="../meshes/left_hip_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Lhip1_Joint"
+    name="left_hip_pitch_joint"
     type="revolute">
     <origin
       xyz="0 0.0876999999999957 0"
@@ -261,7 +261,7 @@
     <parent
       link="base_link" />
     <child
-      link="Lhip1_Link" />
+      link="left_hip_pitch_link" />
     <axis
       xyz="0 0 1" />
     <limit 
@@ -274,7 +274,7 @@
       friction="0.01" />
   </joint>
   <link
-    name="Lhip2_Link">
+    name="left_hip_roll_link">
     <inertial>
       <origin
         xyz="-0.000131578086186634 -0.0490802035731037 -0.0331680910493352"
@@ -295,7 +295,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lhip2_Link.STL" />
+          filename="../meshes/left_hip_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -309,20 +309,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lhip2_Link.STL" />
+          filename="../meshes/left_hip_roll_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Lhip2_Joint"
+    name="left_hip_roll_joint"
     type="revolute">
     <origin
       xyz="-0.0329999999998985 0 -0.0319999999999964"
       rpy="0 -1.5707963267949 0" />
     <parent
-      link="Lhip1_Link" />
+      link="left_hip_pitch_link" />
     <child
-      link="Lhip2_Link" />
+      link="left_hip_roll_link" />
     <axis
       xyz="0 0 1" />
     <limit 
@@ -336,7 +336,7 @@
 
   </joint>
   <link
-    name="Lhip3_Link">
+    name="left_hip_yaw_link">
     <inertial>
       <origin
         xyz="0.000144543412276071 0.00699444045574775 0.0299012718928228"
@@ -357,7 +357,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lhip3_Link.STL" />
+          filename="../meshes/left_hip_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -371,20 +371,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lhip3_Link.STL" />
+          filename="../meshes/left_hip_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Lhip3_Joint"
+    name="left_hip_yaw_joint"
     type="revolute">
     <origin
       xyz="0 -0.110499999999992 -0.0329999999999931"
       rpy="1.5707963267949 -1.5707963267949 0" />
     <parent
-      link="Lhip2_Link" />
+      link="left_hip_roll_link" />
     <child
-      link="Lhip3_Link" />
+      link="left_hip_yaw_link" />
     <axis
       xyz="0 0 -1" />
     <limit 
@@ -397,7 +397,7 @@
       friction="0.01" />
   </joint>
   <link
-    name="Lknee_Link">
+    name="left_knee_link">
     <inertial>
       <origin
         xyz="3.37502306571313E-05 0.077992676193935 -0.0226477099160689"
@@ -418,7 +418,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lknee_Link.STL" />
+          filename="../meshes/left_knee_link.STL" />
       </geometry>
       <material
         name="">
@@ -432,20 +432,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lknee_Link.STL" />
+          filename="../meshes/left_knee_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Lknee_Joint"
+    name="left_knee_joint"
     type="revolute">
     <origin
       xyz="0 -0.0402500000000001 0.038000000000008"
       rpy="1.5707963267949 0 0" />
     <parent
-      link="Lhip3_Link" />
+      link="left_hip_yaw_link" />
     <child
-      link="Lknee_Link" />
+      link="left_knee_link" />
     <axis
       xyz="0 0 1" />
     <limit 
@@ -458,7 +458,7 @@
       friction="0.01" />
   </joint>
   <link
-    name="Lankle_Link">
+    name="left_ankle_link">
     <inertial>
       <origin
         xyz="2.56045185054177E-15 -0.0216454714513506 -0.000820902399707418"
@@ -479,7 +479,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lankle_Link.STL" />
+          filename="../meshes/left_ankle_link.STL" />
       </geometry>
       <material
         name="">
@@ -493,20 +493,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Lankle_Link.STL" />
+          filename="../meshes/left_ankle_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Lankle_Joint"
+    name="left_ankle_joint"
     type="revolute">
     <origin
       xyz="0 0.1 0.00775000000000223"
       rpy="0 0 3.14159265358979" />
     <parent
-      link="Lknee_Link" />
+      link="left_knee_link" />
     <child
-      link="Lankle_Link" />
+      link="left_ankle_link" />
     <axis
       xyz="0 0 -1" />
     <limit 
@@ -519,7 +519,7 @@
       friction="0.01" />
   </joint>
   <link
-    name="Rhip1_Link">
+    name="right_hip_pitch_link">
     <inertial>
       <origin
         xyz="0.0471646787563882 2.29594481299805E-06 -0.0231109660173988"
@@ -540,7 +540,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rhip1_Link.STL" />
+          filename="../meshes/right_hip_pitch_link.STL" />
       </geometry>
       <material
         name="">
@@ -554,12 +554,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rhip1_Link.STL" />
+          filename="../meshes/right_hip_pitch_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rhip1_Joint"
+    name="right_hip_pitch_joint"
     type="revolute">
     <origin
       xyz="0 -0.0877000000000044 0"
@@ -567,7 +567,7 @@
     <parent
       link="base_link" />
     <child
-      link="Rhip1_Link" />
+      link="right_hip_pitch_link" />
     <axis
       xyz="0 0 -1" />
     <limit 
@@ -580,7 +580,7 @@
       friction="0.01" />
   </joint>
   <link
-    name="Rhip2_Link">
+    name="right_hip_roll_link">
     <inertial>
       <origin
         xyz="-0.000131578086186711 -0.0490802035731159 -0.0331680910493347"
@@ -601,7 +601,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rhip2_Link.STL" />
+          filename="../meshes/right_hip_roll_link.STL" />
       </geometry>
       <material
         name="">
@@ -615,20 +615,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rhip2_Link.STL" />
+          filename="../meshes/right_hip_roll_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rhip2_Joint"
+    name="right_hip_roll_joint"
     type="revolute">
     <origin
       xyz="-0.0330000000000126 0 -0.0320000000000056"
       rpy="3.14159265358979 1.5707963267949 0" />
     <parent
-      link="Rhip1_Link" />
+      link="right_hip_pitch_link" />
     <child
-      link="Rhip2_Link" />
+      link="right_hip_roll_link" />
     <axis
       xyz="0 0 -1" />
     <limit 
@@ -641,7 +641,7 @@
       friction="0.01" />
   </joint>
   <link
-    name="Rhip3_Link">
+    name="right_hip_yaw_link">
     <inertial>
       <origin
         xyz="-1.80647165639453E-05 -0.00720758801509277 0.0298984250044248"
@@ -662,7 +662,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rhip3_Link.STL" />
+          filename="../meshes/right_hip_yaw_link.STL" />
       </geometry>
       <material
         name="">
@@ -676,20 +676,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rhip3_Link.STL" />
+          filename="../meshes/right_hip_yaw_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rhip3_Joint"
+    name="right_hip_yaw_joint"
     type="revolute">
     <origin
       xyz="0 -0.110500000000004 -0.0330000000000059"
       rpy="1.5707963267949 -1.5707963267949 0" />
     <parent
-      link="Rhip2_Link" />
+      link="right_hip_roll_link" />
     <child
-      link="Rhip3_Link" />
+      link="right_hip_yaw_link" />
     <axis
       xyz="0 0 -1" />
     <limit 
@@ -702,7 +702,7 @@
       friction="0.01" />
   </joint>
   <link
-    name="Rknee_Link">
+    name="right_knee_link">
     <inertial>
       <origin
         xyz="3.27812508690156E-06 -0.0778846142592483 -0.0225875584669033"
@@ -723,7 +723,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rknee_Link.STL" />
+          filename="../meshes/right_knee_link.STL" />
       </geometry>
       <material
         name="">
@@ -737,20 +737,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rknee_Link.STL" />
+          filename="../meshes/right_knee_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rknee_Joint"
+    name="right_knee_joint"
     type="revolute">
     <origin
       xyz="0 0.0419999999999997 0.037999999999996"
       rpy="-1.5707963267949 0 0" />
     <parent
-      link="Rhip3_Link" />
+      link="right_hip_yaw_link" />
     <child
-      link="Rknee_Link" />
+      link="right_knee_link" />
     <axis
       xyz="0 0 -1" />
     <limit 
@@ -763,7 +763,7 @@
       friction="0.01" />
   </joint>
   <link
-    name="Rankle_Link">
+    name="right_ankle_link">
     <inertial>
       <origin
         xyz="-9.93649607039515E-15 -0.021645471451363 0.000820902399698301"
@@ -784,7 +784,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rankle_Link.STL" />
+          filename="../meshes/right_ankle_link.STL" />
       </geometry>
       <material
         name="">
@@ -798,20 +798,20 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../meshes/Rankle_Link.STL" />
+          filename="../meshes/right_ankle_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="Rankle_Joint"
+    name="right_ankle_joint"
     type="revolute">
     <origin
       xyz="0 -0.100000000000003 0.00775000000000253"
       rpy="3.14159265358979 0 3.14159265358979" />
     <parent
-      link="Rknee_Link" />
+      link="right_knee_link" />
     <child
-      link="Rankle_Link" />
+      link="right_ankle_link" />
     <axis
       xyz="0 0 1" />
     <limit 

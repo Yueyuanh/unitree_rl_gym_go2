@@ -106,14 +106,25 @@ class TaskRegistry():
         # override cfg from args (if specified)
         _, train_cfg = update_cfg_from_args(None, train_cfg, args)
 
-        if log_root=="default":
-            log_root = os.path.join(LEGGED_GYM_ROOT_DIR, 'logs', train_cfg.runner.experiment_name)
-            log_dir = os.path.join(log_root, datetime.now().strftime('%b%d_%H-%M-%S') + '_' + train_cfg.runner.run_name)
+        if log_root == "default":
+            log_root = os.path.join(LEGGED_GYM_ROOT_DIR, "logs", name)
+            if name != train_cfg.runner.experiment_name:
+                print(
+                    "\033[1;31[warning] mtask name is different from experiment name in train config, change the name to avoid potential inconsistancy!\033[0m"
+                )
+            log_dir = os.path.join(
+                log_root,
+                datetime.now().strftime("%b%d_%H-%M-%S") + "_" + train_cfg.runner.run_name,
+            )
         elif log_root is None:
             log_dir = None
+        elif type(log_root) == dict:
+            log_dir = os.path.join(log_root["log_root"], log_root["log_dir"])
         else:
-            log_dir = os.path.join(log_root, datetime.now().strftime('%b%d_%H-%M-%S') + '_' + train_cfg.runner.run_name)
-        
+            log_dir = os.path.join(
+                log_root,
+                datetime.now().strftime("%b%d_%H-%M-%S") + "_" + train_cfg.runner.run_name,
+            )
         train_cfg_dict = class_to_dict(train_cfg)
         runner = OnPolicyRunner(env, train_cfg_dict, log_dir, device=args.rl_device)
         #save resume path before creating a new log_dir

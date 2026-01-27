@@ -68,6 +68,7 @@ class PikachuRobot(LeggedRobot):
     def compute_observations(self):
         """ Computes observations
         """
+        # print(self.projected_gravity)
         sin_phase = torch.sin(2 * np.pi * self.phase ).unsqueeze(1)
         cos_phase = torch.cos(2 * np.pi * self.phase ).unsqueeze(1)
         self.obs_buf = torch.cat((  self.base_ang_vel  * self.obs_scales.ang_vel,

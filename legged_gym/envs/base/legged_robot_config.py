@@ -105,7 +105,7 @@ class LeggedRobotCfg(BaseConfig):
         randomize_base_mass = True
         added_mass_range = [-1., 1.]
         # 外界干扰力
-        push_robots = True
+        push_robots = False
         push_interval_s = 15
         max_push_vel_xy = 3.
 
@@ -144,6 +144,7 @@ class LeggedRobotCfg(BaseConfig):
         soft_dof_vel_limit = 1. # 根据urdf的限制范围 1～100%
         soft_torque_limit = 1.
         base_height_target = 1. # 目标基础身体高度
+        
         max_contact_force = 100. # forces above this value are penalized
         # 最大接触力限制
 

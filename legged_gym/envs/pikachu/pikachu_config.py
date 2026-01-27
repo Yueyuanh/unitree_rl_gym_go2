@@ -2,25 +2,24 @@ from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobot
 
 class PikachuRoughCfg( LeggedRobotCfg ):
     class init_state( LeggedRobotCfg.init_state ):
-        pos = [0.0, 0.0, 0.5] # x,y,z [m]
+        pos = [0.0, 0.0, 0.3] # x,y,z [m]
         default_joint_angles = { # = target angles [rad] when action = 0.0
 
            'Tail_Joint' : 0,   
-           'Larm_Joint' : 1.57,               
-           'Rarm_Joint' : 1.57,   
+           'left_arm_joint' : 1.57,               
+           'right_arm_joint' : 1.57,   
 
-           'Lhip1_Joint' : 0,   
-           'Lhip2_Joint' : 0,               
-           'Lhip3_Joint' : 0,         
-           'Lknee_Joint' : 0,       
-           'Lankle_Joint' : 0,     
+           'left_hip_pitch_joint' : 0,   
+           'left_hip_roll_joint' : 0,               
+           'left_hip_yaw_joint' : 0,         
+           'left_knee_joint' : 0,       
+           'left_ankle_joint' : 0,     
 
-           'Rhip1_Joint' : 0,   
-           'Rhip2_Joint' : 0,               
-           'Rhip3_Joint' : 0,         
-           'Rknee_Joint' : 0,       
-           'Rankle_Joint' : 0. 
-
+           'right_hip_pitch_joint' : 0,   
+           'right_hip_roll_joint' : 0,               
+           'right_hip_yaw_joint' : 0,         
+           'right_knee_joint' : 0,       
+           'right_ankle_joint' : 0
         }
     class env(LeggedRobotCfg.env):
         num_observations = 50
@@ -42,18 +41,24 @@ class PikachuRoughCfg( LeggedRobotCfg ):
         # PD Drive parameters:
         control_type = 'P'
           # PD Drive parameters:
-        stiffness = {'hip_yaw': 100,
-                     'hip_roll': 100,
-                     'hip_pitch': 100,
-                     'knee': 150,
-                     'ankle': 40,
-                     }  # [N*m/rad]
-        damping = {  'hip_yaw': 2,
-                     'hip_roll': 2,
-                     'hip_pitch': 2,
-                     'knee': 4,
-                     'ankle': 2,
-                     }  # [N*m/rad]  # [N*m*s/rad]
+        stiffness = {'Tail_Joint': 50,     
+                    'arm': 100,   
+                    'hip_yaw': 100,
+                    'hip_roll': 100,
+                    'hip_pitch': 100,
+                    'knee': 150,
+                    'ankle': 40
+                    }  # [N*m/rad] -
+        
+        damping = { 'Tail_Joint': 2,     
+                    'arm': 2,   
+                    'hip_yaw': 2,
+                    'hip_roll': 2,
+                    'hip_pitch': 2,
+                    'knee': 4,
+                    'ankle': 2
+                    }  # [N*m*s/rad] - 
+        
         # action scale: target angle = actionScale * action + defaultAngle
         action_scale = 0.25
         # decimation: Number of control action updates @ sim DT per policy DT
@@ -62,15 +67,15 @@ class PikachuRoughCfg( LeggedRobotCfg ):
     class asset( LeggedRobotCfg.asset ):
         file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/Pikachu_V01/urdf/Pikachu_V01.urdf'
         name = "Pikachu_V01"
-        foot_name = "ankle_roll"
-        penalize_contacts_on = ["hip", "knee"]
-        terminate_after_contacts_on = ["pelvis"]
-        self_collisions = 0 # 1 to disable, 0 to enable...bitwise filter
+        foot_name = "ankle"
+        penalize_contacts_on = ["hip","knee"]
+        terminate_after_contacts_on = ["base_link"]
+        self_collisions = 1 # 1 to disable, 0 to enable...bitwise filter
         flip_visual_attachments = False
   
     class rewards( LeggedRobotCfg.rewards ):
         soft_dof_pos_limit = 0.9
-        base_height_target = 0.78
+        base_height_target = 0.25 # 0.2855
         
         class scales( LeggedRobotCfg.rewards.scales ):
             tracking_lin_vel = 1.0
