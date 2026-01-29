@@ -5,19 +5,27 @@
             <default class="DM-motors">
                 
                 <default class="DM-J4310P-2EC-V1.1">
-                    <motor ctrllimited="true" ctrlrange="-12.5 12.5"/>   <!--控制 input limit peak torque-->
+                    <motor ctrllimited="true" ctrlrange="-12.5 12.5"/>  
+                     <!--  joint属性并未生效,需在default中定义  -->
+                    <joint 
+                            damping="0.1" armature="0.001" frictionloss="0.01"/>
                 </default>
 
                 <default class="DM-J4340P-2EC">
-                    <motor ctrllimited="true" ctrlrange="-27 27"/>   <!--control input limit peak torque-->
+                    <motor ctrllimited="true" ctrlrange="-27 27"/>  
+                    <joint 
+                            damping="0.4" armature="0.001" frictionloss="0.01"/>
                 </default>
 
                 <default class="DM-J3507-2EC">
-                    <motor ctrllimited="true" ctrlrange="-3 3"/>   <!--control input limit peak torque-->
+                    <motor ctrllimited="true" ctrlrange="-3 3"/> 
+                    <joint 
+                            damping="0.05" armature="0.001" frictionloss="0.01"/>
                 </default>
 
             </default>
         </default>
     </default>
+
 
 </mujoco>

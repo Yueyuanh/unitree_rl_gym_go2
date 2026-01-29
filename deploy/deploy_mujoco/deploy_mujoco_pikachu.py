@@ -93,7 +93,7 @@ if __name__ == "__main__":
         dof_pos_scale = config["dof_pos_scale"]
         # 关节速度缩放系数
         dof_vel_scale = config["dof_vel_scale"]
-        # 动作缩放系数？
+        # 动作缩放系数
         action_scale = config["action_scale"]
         # 控制指令缩放系数
         cmd_scale = np.array(config["cmd_scale"], dtype=np.float32)
@@ -177,7 +177,6 @@ if __name__ == "__main__":
 
 
     # load policy
-    # 加载控制器策略！！！ policy.pt
     policy = torch.jit.load(policy_path)
 
     with mujoco.viewer.launch_passive(m, d) as viewer:
@@ -186,9 +185,16 @@ if __name__ == "__main__":
         # 仿真总时间 duration
         while viewer.is_running() and time.time() - start < simulation_duration:
             step_start = time.time() # 单步时间记录
+
+            target_dof_pos[2]=-target_dof_pos[2]
+            target_dof_pos[8]=-target_dof_pos[8]
+            # target_dof_pos=default_angles.copy()
             # PD控制器计算输出力矩 初始化力矩 目标位置 | 位置反馈| Kp | 目标速度为0 阻尼  |关节速度反馈| Kd 
             tau = pd_control(target_dof_pos, d.qpos[7:], kps, np.zeros_like(kds), d.qvel[6:], kds)
-            
+
+            tau=np.nan_to_num(tau,nan=0.0,posinf=0.0,neginf=0.0)
+            # print(tau)
+
             # 手柄控制
             if use_joystick:
                 cmd[0]=-joymsg.rx
@@ -203,39 +209,20 @@ if __name__ == "__main__":
                     print("Environment reset!")
             
 
-            # print(target_dof_pos[3],d.qpos[7:][3],tau[3])
-            # print(d.qvel[6:])
+            # print(target_dof_pos[0],d.qpos[7:][0],tau[0])
             # 发送控制指令
-            # d.ctrl[:] = tau
-            # print(tau)
-            tau=np.nan_to_num(tau,nan=0.0,posinf=0.0,neginf=0.0)
 
-            # --- 左前腿 (FL) ---
-            d.ctrl[0] = tau[3]   # FL_hip
-            d.ctrl[1] = tau[4]   # FL_thigh
-            d.ctrl[2] = tau[5]   # FL_calf
 
-            # --- 左后腿 (RL) ---
-            d.ctrl[3] = tau[0]   # RL_hip
-            d.ctrl[4] = tau[1]   # RL_thigh
-            d.ctrl[5] = tau[2]   # RL_calf
+            d.ctrl[:] = tau
 
-            # --- 右前腿 (FR) ---
-            d.ctrl[6] = tau[9]   # FR_hip
-            d.ctrl[7] = tau[10]   # FR_thigh
-            d.ctrl[8] = tau[11]   # FR_calf
+            # d.ctrl[1]=0
+            # d.ctrl[7]=0
 
-            # --- 右后腿 (RR) ---
-            d.ctrl[9]  = tau[6]   # RR_hip
-            d.ctrl[10] = tau[7]  # RR_thigh
-            d.ctrl[11] = tau[8]  # RR_calf
 
-            # mj_step can be replaced with code that also evaluates
-            # a policy and applies a control signal before stepping the physics.
             mujoco.mj_step(m, d) 
 
             counter += 1
-            #                     10
+            # 10
             if counter % control_decimation == 0:
                 # Apply control signal here.
 
@@ -249,62 +236,60 @@ if __name__ == "__main__":
                 dqj = d.qvel[6:]    # 关节速度
                 quat = d.qpos[3:7]  # 四元数
                 omega = d.qvel[3:6] # 角速度
-                # go2新增 根节点线速度
-                base_vel_world = d.qvel[:3]
+
+                # 根节点线速度
+                # base_vel_world = d.qvel[:3]
 
                 # 现实世界很难获得，需要通过卡尔曼观测器估计机体三维线速度信息
                 # 应该是机体坐标系下的速度而不是世界坐标系
-                base_vel_body=np.zeros(3)
-                R=quat_to_mat(quat)
-                base_vel_body=R.T @ base_vel_world
+                # base_vel_body=np.zeros(3)
+                # R=quat_to_mat(quat)
+                # base_vel_body=R.T @ base_vel_world
 
-                base_vel=base_vel_body*lin_vel_scale
+                # base_vel=base_vel_body*lin_vel_scale
                 # print(base_vel_world,base_vel_body)
 
                 # 关节位置 = ( 关节位置 - 初始化角度 )*关节位置缩放系数（1.0）
                 qj = (qj - default_angles) * dof_pos_scale
                 # 关节速度 = 关节速度 * 速度缩放系数（0.05）
                 dqj = dqj * dof_vel_scale
-                # 重力分量
+                # 重力分量(方向)
                 gravity_orientation = get_gravity_orientation(quat)
-   
                 # yaw角速度*缩放系数（0.25）
                 omega = omega * ang_vel_scale
 
-
-
                 # print(cmd)
 
-                # # 周期
-                # period = 0.8
-                # count = counter * simulation_dt
+                # 周期
+                period = 0.8
+                count = counter * simulation_dt
                 # # 相位
-                # phase = count % period / period
-                # sin_phase = np.sin(2 * np.pi * phase)
-                # cos_phase = np.cos(2 * np.pi * phase)
+                phase = count % period / period
+                sin_phase = np.sin(2 * np.pi * phase)
+                cos_phase = np.cos(2 * np.pi * phase)
 
                 # print(base_vel,cmd* cmd_scale)
 
+                print(gravity_orientation.round(4))
+
                 # 打包观测器 打包成一维
-                obs[:3] = base_vel
-                obs[3:6] = omega
-                obs[6:9] = gravity_orientation
-                obs[9:12] = cmd * cmd_scale
-                #obs[12,24]
-                obs[12 : 12 + num_actions] = qj
-                # obs[24:36]
-                obs[12 + num_actions : 12 + 2 * num_actions] = dqj
-                # obs[36,48] 上一时刻的动作
-                obs[12 + 2 * num_actions : 12 + 3 * num_actions] = action
-                # obs[45:47] sin cos 信号 相位信息
-                # obs[9 + 3 * num_actions : 9 + 3 * num_actions + 2] = np.array([sin_phase, cos_phase])
+                obs[:3] = omega
+                obs[3:6] = gravity_orientation
+                obs[6:9] = cmd * cmd_scale
+                #obs[9,22]
+                obs[9 : 9 + num_actions] = qj
+                # obs[22:35]
+                obs[9 + num_actions : 9 + 2 * num_actions] = dqj
+                # obs[35,48] 上一时刻的动作
+                obs[9 + 2 * num_actions : 9 + 3 * num_actions] = action
+                # obs[48:50] sin cos 信号 相位信息
+                obs[9 + 3 * num_actions : 9 + 3 * num_actions + 2] = np.array([sin_phase, cos_phase])
                 # 将numpy数组转化为Pytorch张量（共享内存）添加批次维度 [obs_dim]->[1,obs_dim]
                 obs_tensor = torch.from_numpy(obs).unsqueeze(0)
                 # policy inference
                 # 策略推理      前向传播      |切断梯度计算|切回numpy|去除批次纬度[1,action_dim]->[action_dim] 
                 action = policy(obs_tensor).detach().numpy().squeeze()
 
-                
                 # print(action)
                 # transform action to target_dof_pos
                 # 返回最终的关节位置=动作缩放后+初始位置
@@ -312,8 +297,7 @@ if __name__ == "__main__":
                 # target_dof_pos = default_angles
 
                 # print(obs)
-                print(target_dof_pos)
-
+                # print(target_dof_pos)
 
             # Pick up changes to the physics state, apply perturbations, update options from GUI.
             # 更新GUI 

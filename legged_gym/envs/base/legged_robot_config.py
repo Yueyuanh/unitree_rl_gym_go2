@@ -131,7 +131,7 @@ class LeggedRobotCfg(BaseConfig):
             torques = -0.00001      # 关节力矩 节能 减少损耗
             dof_vel = -0.           # 关节速度
             dof_acc = -2.5e-7       # 关节加速度 减少冲击
-            base_height = 0.      # 身体重心高度 0
+            base_height = 0.        # 身体重心高度 0
             feet_air_time =  1.0    # 足端悬空时间
             collision = -1.         # 碰撞
             feet_stumble = -0.5     # 脚部绊倒

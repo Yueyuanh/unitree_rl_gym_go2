@@ -1,20 +1,20 @@
 <!-- actuators.xml -->
 <mujoco>
     <actuator>
-        <motor class="DM-J3507-2EC" name="act_Tail" joint="Tail_Joint" />
-        <motor class="DM-J4310P-2EC-V1.1"  name="act_Larm" joint="Larm_Joint" />
-        <motor class="DM-J4310P-2EC-V1.1"  name="act_Rarm" joint="Rarm_Joint" />
+        <motor class="DM-J3507-2EC" name="act_Tail" joint="Tail_Joint"/>
+        <motor class="DM-J4340P-2EC"  name="act_Larm" joint="Larm_Joint" />
         
         <motor class="DM-J4340P-2EC" name="act_Lhip1" joint="Lhip1_Joint"/>
-        <motor class="DM-J4310P-2EC-V1.1" name="act_Lhip2" joint="Lhip2_Joint"/>
-        <motor class="DM-J4310P-2EC-V1.1" name="act_Lhip3" joint="Lhip3_Joint"/>
-        <motor class="DM-J4310P-2EC-V1.1" name="act_Lknee" joint="Lknee_Joint"/>
-        <motor class="DM-J4310P-2EC-V1.1" name="act_Lankle" joint="Lankle_Joint"/>
+        <motor class="DM-J4340P-2EC" name="act_Lhip2" joint="Lhip2_Joint"/>
+        <motor class="DM-J4340P-2EC" name="act_Lhip3" joint="Lhip3_Joint"/>
+        <motor class="DM-J4340P-2EC" name="act_Lknee" joint="Lknee_Joint"/>
+        <motor class="DM-J4340P-2EC" name="act_Lankle" joint="Lankle_Joint"/>
         
+        <motor class="DM-J4340P-2EC"  name="act_Rarm" joint="Rarm_Joint" />
         <motor class="DM-J4340P-2EC" name="act_Rhip1" joint="Rhip1_Joint"/>
-        <motor class="DM-J4310P-2EC-V1.1" name="act_Rhip2" joint="Rhip2_Joint"/>
-        <motor class="DM-J4310P-2EC-V1.1" name="act_Rhip3" joint="Rhip3_Joint"/>
-        <motor class="DM-J4310P-2EC-V1.1" name="act_Rknee" joint="Rknee_Joint"/>
-        <motor class="DM-J4310P-2EC-V1.1" name="act_Rankle" joint="Rankle_Joint"/>
+        <motor class="DM-J4340P-2EC" name="act_Rhip2" joint="Rhip2_Joint"/>
+        <motor class="DM-J4340P-2EC" name="act_Rhip3" joint="Rhip3_Joint"/>
+        <motor class="DM-J4340P-2EC" name="act_Rknee" joint="Rknee_Joint"/>
+        <motor class="DM-J4340P-2EC" name="act_Rankle" joint="Rankle_Joint"/>
     </actuator>
 </mujoco>

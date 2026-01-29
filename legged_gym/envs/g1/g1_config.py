@@ -17,7 +17,7 @@ class G1RoughCfg( LeggedRobotCfg ):
            'right_knee_joint' : 0.3,                                             
            'right_ankle_pitch_joint': -0.2,                              
            'right_ankle_roll_joint' : 0,  
-                
+
            'torso_joint' : 0.
         }
     class env(LeggedRobotCfg.env):
@@ -96,9 +96,9 @@ class G1RoughCfgPPO( LeggedRobotCfgPPO ):
         critic_hidden_dims = [32]
         activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
         # only for 'ActorCriticRecurrent':
-        rnn_type = 'lstm'
-        rnn_hidden_size = 64
-        rnn_num_layers = 1
+        # rnn_type = 'lstm'
+        # rnn_hidden_size = 64
+        # rnn_num_layers = 1
         
     class algorithm( LeggedRobotCfgPPO.algorithm ):
         entropy_coef = 0.01

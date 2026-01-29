@@ -4,12 +4,12 @@
         <!-- 关节位置传感器 -->
         <jointpos name="sens_Tail_pos" joint="Tail_Joint" />
         <jointpos name="sens_Larm_pos" joint="Larm_Joint" />
-        <jointpos name="sens_Rarm_pos" joint="Rarm_Joint" />
         <jointpos name="sens_Lhip1_pos" joint="Lhip1_Joint" />
         <jointpos name="sens_Lhip2_pos" joint="Lhip2_Joint" />
         <jointpos name="sens_Lhip3_pos" joint="Lhip3_Joint" />
         <jointpos name="sens_Lknee_pos" joint="Lknee_Joint" />
         <jointpos name="sens_Lankle_pos" joint="Lankle_Joint" />
+        <jointpos name="sens_Rarm_pos" joint="Rarm_Joint" />
         <jointpos name="sens_Rhip1_pos" joint="Rhip1_Joint" />
         <jointpos name="sens_Rhip2_pos" joint="Rhip2_Joint" />
         <jointpos name="sens_Rhip3_pos" joint="Rhip3_Joint" />
@@ -19,12 +19,12 @@
         <!-- 关节速度传感器 -->
         <jointvel name="sens_Tail_vel" joint="Tail_Joint" />
         <jointvel name="sens_Larm_vel" joint="Larm_Joint" />
-        <jointvel name="sens_Rarm_vel" joint="Rarm_Joint" />
         <jointvel name="sens_Lhip1_vel" joint="Lhip1_Joint" />
         <jointvel name="sens_Lhip2_vel" joint="Lhip2_Joint" />
         <jointvel name="sens_Lhip3_vel" joint="Lhip3_Joint" />
         <jointvel name="sens_Lknee_vel" joint="Lknee_Joint" />
         <jointvel name="sens_Lankle_vel" joint="Lankle_Joint" />
+        <jointvel name="sens_Rarm_vel" joint="Rarm_Joint" />
         <jointvel name="sens_Rhip1_vel" joint="Rhip1_Joint" />
         <jointvel name="sens_Rhip2_vel" joint="Rhip2_Joint" />
         <jointvel name="sens_Rhip3_vel" joint="Rhip3_Joint" />

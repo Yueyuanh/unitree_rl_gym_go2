@@ -60,6 +60,10 @@ python legged_gym/scripts/train.py --task=xxx
 
 **默认保存训练结果**：`logs/<experiment_name>/<date_time>_<run_name>/model_<iteration>.pt`
 
+**加载回放**
+```
+python play.py --task=Pikachu_V01 --num_envs=10 --load_run=Jan27_12-03-40 --checkpoint=2200
+```
 ---
 
 ### 2. Play
