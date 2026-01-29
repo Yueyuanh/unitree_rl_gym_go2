@@ -325,7 +325,6 @@ class LeggedRobot(BaseTask):
                 self.dof_pos_limits[i, 1] = props["upper"][i].item()  # 上限
                 self.dof_vel_limits[i] = props["velocity"][i].item()  # 速度限制
                 self.torque_limits[i] = props["effort"][i].item()  # 力矩限制
-                
                 # 应用软限制（soft limits）
                 m = (self.dof_pos_limits[i, 0] + self.dof_pos_limits[i, 1]) / 2  # 中间值
                 r = self.dof_pos_limits[i, 1] - self.dof_pos_limits[i, 0]  # 范围
@@ -697,9 +696,7 @@ class LeggedRobot(BaseTask):
         self.dof_names = self.gym.get_asset_dof_names(robot_asset)  # DOF名称
         self.num_bodies = len(body_names)  # 刚体数量
         self.num_dofs = len(self.dof_names)  # DOF数量
-        print("=========动作输出顺序=========")
-        print(self.dof_names) # 动作输出顺序
-        print("=============================")
+
         # 查找足部名称
         feet_names = [s for s in body_names if self.cfg.asset.foot_name in s]
         
@@ -731,6 +728,8 @@ class LeggedRobot(BaseTask):
             # 创建环境实例
             env_handle = self.gym.create_env(self.sim, env_lower, env_upper, int(np.sqrt(self.num_envs)))
             
+
+            # TODO:random init pose quat
             # 设置初始位置（添加随机偏移）
             pos = self.env_origins[i].clone()
             pos[:2] += torch_rand_float(-1., 1., (2, 1), device=self.device).squeeze(1)
@@ -755,6 +754,15 @@ class LeggedRobot(BaseTask):
             # 保存环境句柄和演员句柄
             self.envs.append(env_handle)
             self.actor_handles.append(actor_handle)
+
+        print("=========刚体顺序=========")
+        print(body_names)
+        print("=========DOF顺序=========")
+        print(f"DOF数量:{self.num_dof}\n ")
+        print("(is_driven, lower_limit, upper_limit, drive_mode, stiffness, damping, max_force, friction, armature, velocity)")
+        print(f"DOF属性:{dof_props}\n")
+        print(self.dof_names) # 动作输出顺序
+        print("=========================")
 
         # 获取足部索引
         self.feet_indices = torch.zeros(len(feet_names), dtype=torch.long, device=self.device, requires_grad=False)

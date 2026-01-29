@@ -1,22 +1,77 @@
 <mujocoinclude>
+<!-- MuJoCo仿真场景配置文件 -->
+<!-- 包含仿真环境的基础设置：统计、视觉、资源、世界体 -->
 
+<!-- 统计信息设置：定义仿真数据的统计范围 -->
 <statistic center="0 0 0.1" extent="0.8"/>
+<!-- center: 统计中心点坐标 (x y z) -->
+<!-- extent: 统计范围扩展系数，影响数据显示范围 -->
 
+<!-- 视觉渲染设置 -->
 <visual>
-<headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
-<rgba haze="0.15 0.25 0.35 1"/>
-<global azimuth="-130" elevation="-20"/>
+    <!-- 头灯光源设置 -->
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+    <!-- diffuse: 漫反射颜色 (RGB) -->
+    <!-- ambient: 环境光颜色 (RGB) -->
+    <!-- specular: 镜面反射颜色 (RGB)，设为0表示无镜面反射 -->
+    
+    <!-- 雾气颜色设置：模拟大气散射效果 -->
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <!-- rgba: 红绿蓝透明度 (0.15 0.25 0.35 1 = 蓝灰色，完全不透明) -->
+    
+    <!-- 全局相机视角设置 -->
+    <global azimuth="-130" elevation="-20"/>
+    <!-- azimuth: 方位角（绕Z轴旋转，单位：度），-130 = 从东南方向观察 -->
+    <!-- elevation: 俯仰角（上下角度），-20 = 略微俯视 -->
 </visual>
 
+<!-- 资源定义：纹理和材质 -->
 <asset>
-<texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
-<texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300"/>
-<material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    <!-- 天空盒纹理：创建渐变天空背景 -->
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <!-- type: 纹理类型 - skybox表示环境贴图 -->
+    <!-- builtin: 内置纹理类型 - gradient表示渐变纹理 -->
+    <!-- rgb1: 顶部颜色 (浅蓝灰色) -->
+    <!-- rgb2: 底部颜色 (黑色) -->
+    <!-- width/height: 纹理分辨率 -->
+    
+    <!-- 地面纹理：棋盘格图案 -->
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <!-- type: 2D纹理 -->
+    <!-- name: 纹理名称，后续可通过此名称引用 -->
+    <!-- builtin: checker表示棋盘格图案 -->
+    <!-- mark: edge表示边缘高亮模式 -->
+    <!-- rgb1: 棋盘格第一种颜色 (深蓝灰色) -->
+    <!-- rgb2: 棋盘格第二种颜色 (更深蓝灰色) -->
+    <!-- markrgb: 边缘高亮颜色 (浅灰色) -->
+    <!-- width/height: 棋盘格数量，300x300表示非常细密的网格 -->
+    
+    <!-- 地面材质：应用地面纹理 -->
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    <!-- name: 材质名称 -->
+    <!-- texture: 使用的纹理名称 -->
+    <!-- texuniform: 纹理坐标是否统一 -->
+    <!-- texrepeat: 纹理重复次数 (5 5 = 在x和y方向各重复5次) -->
+    <!-- reflectance: 反射率，0.2表示20%的反射 -->
 </asset>
 
+<!-- 世界体：定义仿真世界中的物体 -->
 <worldbody>
+    <!-- 定向光源：模拟太阳光 -->
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+    <!-- pos: 光源位置 (x y z) -->
+    <!-- dir: 光照方向 (0 0 -1 = 垂直向下) -->
+    <!-- directional: true表示定向光（平行光） -->
+    
+    <!-- 地面几何体 -->
+    <!-- <geom name="floor" pos="0 0 -0.5" size="0 0 0.01" type="plane" material="groundplane" friction="1.5"/> -->
+    <geom name="floor" pos="0 0 -0.5" size="0 0 0.01" type="plane" material="groundplane"  friction="1"/>
 
-<light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
-<geom name="floor" pos="0 0 -0.5" size="0 0 0.01" type="plane" material="groundplane" friction="1.0 0.005 0.0001"/>
+    <!-- name: 几何体名称 -->
+    <!-- pos: 位置 (x y z)，z=-0.5表示地面在z轴负方向0.5米处 -->
+    <!-- size: 尺寸参数，对于plane类型：(半长 半宽 高度)，这里高度为0.01米 -->
+    <!-- type: 几何类型 - plane表示无限平面 -->
+    <!-- material: 使用的材质名称 -->
+    <!-- friction: 摩擦系数，1.0表示标准摩擦 -->
 </worldbody>
 </mujocoinclude>

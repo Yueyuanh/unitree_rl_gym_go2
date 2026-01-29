@@ -49,9 +49,9 @@ export PYTHONPATH="/home/gymuser/pikachu/unitree_rl_gym_go2:$PYTHONPATH"
 
 ```
 # 同步网络模型
-scp -r finnox-4090@10.10.28.39:~/RL/Pikachu/unitree_rl_gym_go2/logs/Pikachu_V01 /mnt/data/Projects/unitree_rl_gym/logs/Pikachu_V01/
+scp -r finnox-4090@10.10.28.39:~/RL/Pikachu/unitree_rl_gym_go2/logs/Pikachu_V01 /mnt/data/Projects/unitree_rl_gym/logs/
 
-W 同步训练参数
+# 同步训练参数
 scp -r finnox-4090@10.10.28.39:~/RL/Pikachu/unitree_rl_gym_go2/legged_gym/envs/pikachu /mnt/data/Projects/unitree_rl_gym/legged_gym/envs
 
 scp -r finnox-4090@10.10.28.39:~/RL/Pikachu/unitree_rl_gym_go2/resources/robots/Pikachu_V01 /mnt/data/Projects/unitree_rl_gym/resources/robots/
@@ -75,6 +75,9 @@ docker stop $(docker ps -aq)
 
 # 重启docker服务
 sudo systemctl restart docker
+
+# 重启NVIDIA服务（最常用方法）
+sudo systemctl restart nvidia-persistenced
 
 # 重新启动容器
 docker start [容器名]

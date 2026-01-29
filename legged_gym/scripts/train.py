@@ -14,6 +14,7 @@ import torch
 def train(args):
 
     logdir = ExperimentLogger.generate_logdir(args.task)
+    print(f"logdir:{logdir}")
     exp_msg = {}
     env_cfg, train_cfg = task_registry.get_cfgs(name=args.task)
     exp_msg = ExperimentLogger.commit_experiment(logdir, args)  # force to commit expriment message
@@ -24,7 +25,7 @@ def train(args):
 
     env, env_cfg = task_registry.make_env(name=args.task, args=args,env_cfg=env_cfg)
     ppo_runner, train_cfg = task_registry.make_alg_runner(
-        env=env, name=args.task, args=args, train_cfg=train_cfg, log_root=logdir
+        env=env, name=args.task, args=args, train_cfg=train_cfg, log_root=logdir["log_root"]
     )
     exp_msg["env_cfg"] = class_to_dict(env_cfg)
     exp_msg["train_cfg"] = class_to_dict(train_cfg)

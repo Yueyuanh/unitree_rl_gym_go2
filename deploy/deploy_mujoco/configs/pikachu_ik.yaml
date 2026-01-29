@@ -1,12 +1,12 @@
 # 
-policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu/policy_1000.pt"
-# policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu/policy_69000_walk.pt"
+# policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu/policy_1.pt"
+policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu_ik/policy_69000_walk.pt"
 
 
 
 
-xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/Pikachu_V01/mjcf/Pikachu_V01.xml"
-# xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/Pikachu_V01/mjcf/Pikachu_V01_ik.xml"
+# xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/Pikachu_V01/mjcf/Pikachu_V01.xml"
+xml_path: "{LEGGED_GYM_ROOT_DIR}/resources/robots/Pikachu_V01/mjcf/Pikachu_V01_ik.xml"
 
 # Total simulation time
 simulation_duration: 1000 #60.0 s
@@ -43,8 +43,8 @@ kds: [0.5,0.5,   0.1, 2, 0.5,0.1,0.1,     0.5,  0.1,  2, 0.5,0.1,0.1]
  
 
 
-default_angles: [0,-1,0.56,0,0,1.53,0.9, 
-                   -1,0.56,0,0,1.53,0.9]
+default_angles: [0,0,0,0,0,0,0, 
+                0,0,0,0,0,0]
 
 ang_vel_scale: 0.25
 dof_pos_scale: 1.0

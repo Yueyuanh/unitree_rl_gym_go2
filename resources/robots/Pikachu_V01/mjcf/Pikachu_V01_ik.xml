@@ -73,7 +73,7 @@
                         
                         <body name="Lknee_Link" pos="0 -0.04025 0.038" quat="0.707107 0.707107 0 0">
                             <inertial pos="3.37502e-05 0.0779927 -0.0226477" quat="0.500409 0.500469 -0.499542 0.499579" mass="0.244244" diaginertia="0.000277378 0.000245577 7.48321e-05" />
-                            <joint name="Lknee_Joint" pos="0 0 0" axis="0 0 -1" class="knee"/>
+                            <joint name="Lknee_Joint" pos="0 0 0" axis="0 0 1" class="knee"/>
                             <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.792157 0.819608 0.933333 1" mesh="Lknee_Link" />
                             <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="Lknee_Link" />
                             <body name="Lankle_Link" pos="0 0.1 0.00775" quat="0 0 0 1">
@@ -113,7 +113,7 @@
                        
                        <body name="Rknee_Link" pos="0 0.042 0.038" quat="0.707107 -0.707107 0 0">
                             <inertial pos="3.27813e-06 -0.0778846 -0.0225876" quat="0.499552 0.499712 -0.500364 0.500372" mass="0.244873" diaginertia="0.000277381 0.000245544 7.487e-05" />
-                            <joint name="Rknee_Joint" pos="0 0 0" axis="0 0 1" class="knee"/>
+                            <joint name="Rknee_Joint" pos="0 0 0" axis="0 0 -1" class="knee"/>
                             <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.698039 0.698039 0.698039 1" mesh="Rknee_Link" />
                             <geom type="mesh" rgba="0.698039 0.698039 0.698039 1" mesh="Rknee_Link" />
                             

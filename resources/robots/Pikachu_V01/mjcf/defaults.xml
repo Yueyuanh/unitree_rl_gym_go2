@@ -16,7 +16,7 @@
             <!-- 手臂类 -->
             <default class="arm">
                 <!-- 4340 -->
-                <joint 
+                <joint range="-3.14 -0.77"
                         damping="0.4" armature="0.001" frictionloss="0.01"/>
             </default>
 

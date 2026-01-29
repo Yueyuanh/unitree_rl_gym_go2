@@ -57,10 +57,18 @@ def play(args):
 
 
     for i in range(10*int(env.max_episode_length)):
-        actions = policy(obs.detach())
 
+        
+        actions = policy(obs.detach())
         obs, _, rews, dones, infos = env.step(actions.detach())
 
+        command=[0,0,0]
+        command_tensor = torch.tensor(command, device=obs.device, dtype=torch.float32)
+        obs[:, 6:9] = command_tensor.unsqueeze(0) if command_tensor.dim() == 1 else command_tensor
+        # print(obs[:,6:9])
+        print(obs[:,:3])
+
+        # print(obs)
         # print(actions.detach())
         # print(actions)
 
@@ -119,6 +127,6 @@ if __name__ == '__main__':
     EXPORT_POLICY = True
     RECORD_FRAMES = False
     MOVE_CAMERA =   False
-    SHOW_LOGS_PLOT= False
+    SHOW_LOGS_PLOT= True
     args = get_args()
     play(args)

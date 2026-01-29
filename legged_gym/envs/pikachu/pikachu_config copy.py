@@ -2,24 +2,24 @@ from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobot
 
 class PikachuRoughCfg( LeggedRobotCfg ):
     class init_state( LeggedRobotCfg.init_state ):
-        pos = [0.0, 0.0, 0.2] # x,y,z [m]
+        pos = [0.0, 0.0, 0.3] # x,y,z [m]
         default_joint_angles = { # = target angles [rad] when action = 0.0
 
            'back_tail_joint' : 0,   
-           'left_arm_joint' : -1,               
-           'right_arm_joint' : -1,   
+           'left_arm_joint' : 0,               
+           'right_arm_joint' : 0,   
 
-           'left_hip_pitch_joint' : 0.56,   
+           'left_hip_pitch_joint' : 0,   
            'left_hip_roll_joint' : 0,               
            'left_hip_yaw_joint' : 0,         
-           'left_knee_joint' : 1.53,       
-           'left_ankle_joint' : 0.9,     
+           'left_knee_joint' : 0,       
+           'left_ankle_joint' : 0,     
 
-           'right_hip_pitch_joint' : 0.56, 
+           'right_hip_pitch_joint' : 0,   
            'right_hip_roll_joint' : 0,               
            'right_hip_yaw_joint' : 0,         
-           'right_knee_joint' : 1.53,       
-           'right_ankle_joint' : 0.9
+           'right_knee_joint' : 0,       
+           'right_ankle_joint' : 0
         }
     class env(LeggedRobotCfg.env):
         num_observations = 50
@@ -44,7 +44,7 @@ class PikachuRoughCfg( LeggedRobotCfg ):
         stiffness = {'tail': 50,     
                     'arm': 50,   
                     'hip_yaw': 50,
-                    'hip_roll': 100,
+                    'hip_roll': 50,
                     'hip_pitch': 80,
                     'knee': 80,
                     'ankle': 80
@@ -53,7 +53,7 @@ class PikachuRoughCfg( LeggedRobotCfg ):
         damping = { 'tail': 0.5,     
                     'arm': 0.5,   
                     'hip_yaw': 0.5,
-                    'hip_roll': 2,
+                    'hip_roll': 0.1,
                     'hip_pitch': 0.1,
                     'knee': 0.1,
                     'ankle': 0.1
@@ -75,31 +75,34 @@ class PikachuRoughCfg( LeggedRobotCfg ):
   
     class rewards( LeggedRobotCfg.rewards ):
         soft_dof_pos_limit = 0.9
-        base_height_target = 0.26 # 0.2855
+        base_height_target = 0.27 # 0.2855
         
         class scales( LeggedRobotCfg.rewards.scales ):# 大倍数提升时reward会呈倍数突变，
-            tracking_lin_vel = 1.0
-            tracking_ang_vel = 0.5
-            lin_vel_z = -2.0
-            ang_vel_xy = -0.05
-            orientation = -1.0
-            base_height = -10.0
-            dof_acc = -2.5e-7
-            dof_vel = -1e-3
-            feet_air_time = 0.0
-            collision = 0.0
-            action_rate = -0.01
-            dof_pos_limits = -5.0
-            alive = 0.15
-            hip_pos = -1.0
-            contact_no_vel = -0.2
-            feet_swing_height = -20.0
-            contact = 0.18
+            tracking_lin_vel = 2 # 1.0
+            tracking_ang_vel = 0.5 # 0.5
+            lin_vel_z = -2.0   # Z轴上下惩罚（放置跳跃 摔倒）-2.0
+            ang_vel_xy = -0.05 # Roll轴角速度惩罚   -0.05
+            orientation = -1.0 # 机体旋转角度惩罚 -1
+            torques = -0.00001  # 力矩惩罚（能量）-0.00001 
+            dof_acc = -2.5e-7   # 关节加速度
+            dof_vel = -0.001     # 关节速度
+            base_height = -10.0 # 基础身高 -10
+            feet_air_time = 0.0 # 足部悬空时间
+            collision = -0.0     # 碰撞(penalize_contacts_on)
+            action_rate = -0.01 # 两次动作变化率惩罚
+            stand_still = -0.00  # 静止站立惩罚
+
+            dof_pos_limits = -5.0 # 关节角度限制
+            alive = 0.15          # 生存奖励  
+            hip_pos = -1.0        # hip_roll hip_yaw 保持原位
+            contact_no_vel = -0.2 # 足端撞地惩罚
+            feet_swing_height = -20.0 # 足端摆动高度
+            contact = 0.18            # 接触奖励（符合步态相位）
 
 class PikachuRoughCfgPPO( LeggedRobotCfgPPO ):
     class policy:
         init_noise_std = 0.8 #0.8
-        # # Actor网络隐藏层维度
+        # Actor网络隐藏层维度
         actor_hidden_dims = [512, 256, 128]
         # Critic网络隐藏层维度
         critic_hidden_dims = [512, 256, 128]
@@ -126,5 +129,5 @@ class PikachuRoughCfgPPO( LeggedRobotCfgPPO ):
         # load_run = -1 # -1 = last run
         # checkpoint = -1 # -1 = last saved model
 
-        # load_run = "Jan29_18-37-07_"
-        # checkpoint = 2000
+        # load_run = "Jan29_12-35-30_"
+        # checkpoint = 55000

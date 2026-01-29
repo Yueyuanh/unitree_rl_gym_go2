@@ -476,7 +476,7 @@
     <child
       link="left_knee_link" />
     <axis
-      xyz="0 0 -1" />
+      xyz="0 0 1" />
     <limit 
       lower="0.04"    
       upper="2.44"    
@@ -781,7 +781,7 @@
     <child
       link="right_knee_link" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
     <limit 
       lower="0.04"    
       upper="2.44"    
