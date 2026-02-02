@@ -1,5 +1,8 @@
 # 
-policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu/policy_17000.pt"
+# policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu/policy_17000.pt"
+# policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu/policy_35000.pt"
+policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu/policy_67000.pt"
+
 # policy_path: "{LEGGED_GYM_ROOT_DIR}/deploy/pre_train/pikachu/policy_1000_amazing_stand.pt"
 
 
@@ -35,8 +38,8 @@ control_decimation: 10
         #             }  # [N*m*s/rad] - 
         
 
-kps: [50, 50,    80,  100,  50, 80, 80,   50,   80,  100,  50, 80, 80]
-kds: [0.5,0.5,   0.1, 2, 0.5,0.1,0.1,     0.5,  0.1,  2, 0.5,0.1,0.1]
+kps: [50, 50,    80,  100,  50, 80,  80,   50,   80,  100,  50, 80, 80]
+kds: [0.5,0.5,   0.1, 2,    0.5,0.1, 0.1,     0.5,  0.1,  2, 0.5,0.1,0.1]
 
 # kps: [0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0, 0]
 # kds: [0, 0., 0., 0, 0, 0, 0, 0, 0, 0, 0, 0]

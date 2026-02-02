@@ -9,6 +9,10 @@ from legged_gym.envs.g1.g1_config import G1RoughCfg, G1RoughCfgPPO
 from legged_gym.envs.g1.g1_env import G1Robot
 from legged_gym.envs.pikachu.pikachu_config import PikachuRoughCfg, PikachuRoughCfgPPO
 from legged_gym.envs.pikachu.pikachu_env import PikachuRobot
+
+from legged_gym.envs.pikachu_10dof.pikachu_10dof_config import PikachuRough10Cfg, PikachuRough10CfgPPO
+from legged_gym.envs.pikachu_10dof.pikachu_10dof_env import Pikachu10Robot
+
 from .base.legged_robot import LeggedRobot
 
 from legged_gym.utils.task_registry import task_registry
@@ -18,3 +22,6 @@ task_registry.register( "h1", H1Robot, H1RoughCfg(), H1RoughCfgPPO())
 task_registry.register( "h1_2", H1_2Robot, H1_2RoughCfg(), H1_2RoughCfgPPO())
 task_registry.register( "g1", G1Robot, G1RoughCfg(), G1RoughCfgPPO())
 task_registry.register( "Pikachu_V01", PikachuRobot, PikachuRoughCfg(), PikachuRoughCfgPPO())
+task_registry.register( "Pikachu_10DOF", Pikachu10Robot, PikachuRough10Cfg(), PikachuRough10CfgPPO())
+# Pikachu_quad 
+# task_registry.register( "Pikachu_10DOF", Pikachu10Robot, PikachuRough10Cfg(), PikachuRough10CfgPPO())

@@ -14,7 +14,6 @@ from deploy_joystick import DeployJoystick
 from unitree_sdk2py.core.channel import ChannelFactoryInitialize
 from unitree_sdk2py.core.channel import ChannelSubscriber, ChannelPublisher
 from unitree_sdk2py.idl.unitree_go.msg.dds_ import WirelessController_
-from unitree_sdk2py.idl.default import unitree_go_msg_dds__WirelessController_
 
 from LPF import LPF
 
@@ -200,23 +199,21 @@ if __name__ == "__main__":
         # 仿真总时间 duration
         while viewer.is_running() and time.time() - start < simulation_duration:
             step_start = time.time() # 单步时间记录
-            
-            target_dof_pos_new=target_dof_pos
+            soft_limit=0.95
+            limit_angles_rl=[[-3.14,-0.77],[-0.7,2.7],[-0.12,0.14],[-0.26,0.26],[0.04,2.44],[-1.64,1.64]]
 
-            # hip_pitch
-            # target_dof_pos[2]=-target_dof_pos[2]
-            # target_dof_pos[8]=-target_dof_pos[8]
-
-            # target_dof_pos[3]=-target_dof_pos[3]
-            # target_dof_pos[9]=-target_dof_pos[9]
-
-            # knee
-            # target_dof_pos[6]=-target_dof_pos[6]
-            # target_dof_pos[11]=-target_dof_pos[11]
-            
-            # ankle
+            if   target_dof_pos[0]<-1.05*soft_limit: target_dof_pos[0]= -1.05*soft_limit
+            elif target_dof_pos[0]> 1.05*soft_limit: target_dof_pos[0]=  1.05*soft_limit
+                
+            for i in range(6):
+                if   target_dof_pos[i+1]<limit_angles_rl[i][0]*soft_limit: target_dof_pos[i+1]= limit_angles_rl[i][0]*soft_limit
+                elif target_dof_pos[i+1]>limit_angles_rl[i][1]*soft_limit: target_dof_pos[i+1]= limit_angles_rl[i][1]*soft_limit
+                
+                if   target_dof_pos[i+7]<limit_angles_rl[i][0]*soft_limit: target_dof_pos[i+7]= limit_angles_rl[i][0]*soft_limit
+                elif target_dof_pos[i+7]>limit_angles_rl[i][1]*soft_limit: target_dof_pos[i+7]= limit_angles_rl[i][1]*soft_limit
 
 
+  
             # target_dof_pos=default_angles.copy()
             # PD控制器计算输出力矩 初始化力矩 目标位置 | 位置反馈| Kp | 目标速度为0 阻尼  |关节速度反馈| Kd 
             # target_dof_pos=filter.update(target_dof_pos)
@@ -237,7 +234,7 @@ if __name__ == "__main__":
 
             # 手柄控制
             if use_joystick:
-                cmd[0]=-joymsg.rx
+                cmd[0]=joymsg.rx
                 cmd[1]=joymsg.ry
                 cmd[2]=-joymsg.lx
 
@@ -253,7 +250,7 @@ if __name__ == "__main__":
             # 发送控制指令
 
 
-            # d.ctrl[:] = tau_filter.update(tau)
+            d.ctrl[:] = tau_filter.update(tau)
 
             d.ctrl[:]=tau
             # d.ctrl[1]=0

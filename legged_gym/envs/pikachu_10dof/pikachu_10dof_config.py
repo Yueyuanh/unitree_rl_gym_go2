@@ -1,13 +1,13 @@
 from legged_gym.envs.base.legged_robot_config import LeggedRobotCfg, LeggedRobotCfgPPO
 
-class PikachuRoughCfg( LeggedRobotCfg ):
+class PikachuRough10Cfg( LeggedRobotCfg ):
     class init_state( LeggedRobotCfg.init_state ):
         pos = [0.0, 0.0, 0.2] # x,y,z [m]
         default_joint_angles = { # = target angles [rad] when action = 0.0
 
-           'back_tail_joint' : 0,   
-           'left_arm_joint' : -1,               
-           'right_arm_joint' : -1,   
+        #    'back_tail_joint' : 0,   
+        #    'left_arm_joint' : -1,               
+        #    'right_arm_joint' : -1,   
 
            'left_hip_pitch_joint' : 0.56,   
            'left_hip_roll_joint' : 0,               
@@ -22,9 +22,10 @@ class PikachuRoughCfg( LeggedRobotCfg ):
            'right_ankle_joint' : 0.9
         }
     class env(LeggedRobotCfg.env):
-        num_observations = 50
-        num_privileged_obs = 53
-        num_actions = 13
+        # 3 + 3 + 3 + 10 + 10 + 10 + 2 = 41
+        num_observations = 41
+        num_privileged_obs = 44
+        num_actions = 10
 
 
     class domain_rand(LeggedRobotCfg.domain_rand):
@@ -41,8 +42,7 @@ class PikachuRoughCfg( LeggedRobotCfg ):
         # PD Drive parameters:
         control_type = 'P'
           # PD Drive parameters:
-        stiffness = {'tail': 50,     
-                    'arm': 50,   
+        stiffness = { 
                     'hip_yaw': 50,
                     'hip_roll': 100,
                     'hip_pitch': 80,
@@ -50,8 +50,7 @@ class PikachuRoughCfg( LeggedRobotCfg ):
                     'ankle': 80
                     }  # [N*m/rad] -
         
-        damping = { 'tail': 0.5,     
-                    'arm': 0.5,   
+        damping = {   
                     'hip_yaw': 0.5,
                     'hip_roll': 2,
                     'hip_pitch': 0.1,
@@ -67,8 +66,8 @@ class PikachuRoughCfg( LeggedRobotCfg ):
         decimation = 4
 
     class asset( LeggedRobotCfg.asset ):
-        file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/Pikachu_V01/urdf/Pikachu_V01.urdf'
-        name = "Pikachu_V01"
+        file = '{LEGGED_GYM_ROOT_DIR}/resources/robots/Pikachu_V01/urdf/Pikachu_V01_10dof.urdf'
+        name = "Pikachu_10DOF"
         foot_name = "ankle"
         penalize_contacts_on = ["hip","knee"] # 双足模式惩罚手臂触地，
         terminate_after_contacts_on = ["base_link","tail","hip","knee"]
@@ -102,7 +101,7 @@ class PikachuRoughCfg( LeggedRobotCfg ):
             contact = 0.18            # 接触奖励（符合步态相位）
 
 
-class PikachuRoughCfgPPO( LeggedRobotCfgPPO ):
+class PikachuRough10CfgPPO( LeggedRobotCfgPPO ):
     class policy:
         init_noise_std = 0.8 #0.8
         # # Actor网络隐藏层维度
